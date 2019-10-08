@@ -12,6 +12,10 @@ local images = {
   [".gif"] = true,
 }
 
+local function round(num)
+  return math.floor(num * 100 + .5)/100
+end
+
 local function spairs(t, index, reverse)
   -- collect the keys
   local keys = {}
@@ -28,6 +32,10 @@ local function spairs(t, index, reverse)
     end
   end
 end
+
+local icons = {
+    ["download"] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
+  }
 
 local html = {
   page = function()
@@ -53,10 +61,14 @@ local html = {
 
   download = function(tbl)
     local txt = ""
-    local tpl = '<a class="download" href="%s">%s</a>'
+    local tpl = '<a class="download" href="%s">'..icons.download..'<span class="caption">%s <small>(%s)</small></span></a>'
     if not tbl then return txt end
     for name, text in spairs(tbl) do
-      txt = txt .. string.format(tpl, name, name)
+      local size = lfs.attributes(config.scanpath .. text).size
+      if size then
+        size = size > 1048576 and round(size / 1048576) .. " MB" or size > 1024 and round(size / 1024) .. " KB" or size .. " B"
+        txt = txt .. string.format(tpl, name, name, size)
+      end
     end
     return txt
   end,
