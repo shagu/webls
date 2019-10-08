@@ -12,6 +12,14 @@ local images = {
   [".gif"] = true,
 }
 
+local function empty(tbl)
+  for _ in pairs(tbl) do
+    return nil
+  end
+
+  return true
+end
+
 local function round(num)
   return math.floor(num * 100 + .5)/100
 end
@@ -34,8 +42,8 @@ local function spairs(t, index, reverse)
 end
 
 local icons = {
-    ["download"] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
-  }
+  ["download"] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
+}
 
 local html = {
   page = function()
@@ -52,7 +60,7 @@ local html = {
       txt = txt .. '<a class="back" href="../index.html">« Back</a>'
     end
 
-    if not tbl then return txt end
+    if not tbl or empty(tbl) then return txt end
     for name, _ in spairs(tbl) do
       txt = txt .. string.format(tpl, name, name)
     end
@@ -60,9 +68,9 @@ local html = {
   end,
 
   download = function(tbl)
-    local txt = ""
+    local txt = '<div class="download">'
     local tpl = '<a class="download" href="%s">'..icons.download..'<span class="caption">%s <small>(%s)</small></span></a>'
-    if not tbl then return txt end
+    if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       local size = lfs.attributes(config.scanpath .. text).size
       if size then
@@ -70,23 +78,23 @@ local html = {
         txt = txt .. string.format(tpl, name, name, size)
       end
     end
-    return txt
+    return txt .. '</div>'
   end,
 
   gallery = function(tbl)
-    local txt = ""
+    local txt = '<div class="gallery">'
     local tpl = '<a class="gallery" href="%s"><img class="gallery" src="%s"/><br/>%s</a>'
-    if not tbl then return txt end
+    if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))
     end
-    return txt
+    return txt .. "</div>"
   end,
 
   content = function(tbl)
     local txt = ""
     local tpl = '<div id="%s" class="content">%s</div>'
-    if not tbl then return txt end
+    if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       txt = txt .. string.format(tpl, name, markdown(text))
     end
@@ -165,9 +173,7 @@ for path in pairs(scan()) do
   local file = io.open(config.www .. path .. "/index.html", "w")
   file:write(string.format(html.page(), config.title, config.description,
     html.navbar(navbar[path], path),
-    html.content(content[path]),
-    html.gallery(gallery[path]),
-    html.download(download[path])
+    html.content(content[path]) .. html.gallery(gallery[path]) .. html.download(download[path])
   ))
 
   file:close()
