@@ -4,6 +4,13 @@
 local config = require("config")
 local lfs = require("lfs")
 local markdown = require("markdown/markdown")
+local images = {
+  [".png"] = true,
+  [".jpg"] = true,
+  [".jpeg"] = true,
+  [".webp"] = true,
+  [".gif"] = true,
+}
 
 local function spairs(t, index, reverse)
   -- collect the keys
@@ -54,9 +61,19 @@ local html = {
     return txt
   end,
 
+  gallery = function(tbl)
+    local txt = ""
+    local tpl = '<a class="gallery" href="%s"><img class="gallery" src="%s"/><br/>%s</a>'
+    if not tbl then return txt end
+    for name, text in spairs(tbl) do
+      txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))
+    end
+    return txt
+  end,
+
   content = function(tbl)
     local txt = ""
-    local tpl = '<div id="%s" class="subcontent">%s</div>'
+    local tpl = '<div id="%s" class="content">%s</div>'
     if not tbl then return txt end
     for name, text in spairs(tbl) do
       txt = txt .. string.format(tpl, name, markdown(text))
@@ -68,6 +85,7 @@ local html = {
 -- content cache
 local navbar = {}
 local content = {}
+local gallery = {}
 local download = {}
 local ignored = {}
 
@@ -106,8 +124,13 @@ local function scan(path, ls)
         file:close()
         md = true
       else
-        download[path] = download[path] or {}
-        download[path][name] = full
+        if images[ext] then
+          gallery[path] = gallery[path] or {}
+           gallery[path][name] = full
+        else
+          download[path] = download[path] or {}
+          download[path][name] = full
+        end
         lfs.link(file_in, file_out)
       end
     end
@@ -131,6 +154,7 @@ for path in pairs(scan()) do
   file:write(string.format(html.page(), config.title, config.description,
     html.navbar(navbar[path], path),
     html.content(content[path]),
+    html.gallery(gallery[path]),
     html.download(download[path])
   ))
 

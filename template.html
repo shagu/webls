@@ -1,9 +1,10 @@
 <html>
   <head>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300&display=swap" rel="stylesheet"/>
   <style>
     body {
       font-family: "Roboto", "Droid Sans", "Ubuntu Sans", Sans;
+      font-size: 12pt;
       margin: 0px;
       background: #ffffff;
       color: #000000;
@@ -16,7 +17,7 @@
 
     span.description {
       font-size: 12pt;
-    font-weight: 100;
+      font-weight: 100;
       color: #555555;
     }
 
@@ -60,15 +61,43 @@
       color: #000;
     }
 
-    div.content {
+    div.page {
       background: #fff;
       margin: auto;
       max-width: 1280px;
     }
 
-    div.subcontent {
+    div.content {
       border: 1px #eee solid;
       padding: 5px 20px 10px 20px;
+    }
+
+    div.gallery {
+      margin: 5px 0px;
+      background: #fff;
+      border: 1px #eee solid;
+    }
+
+    a.gallery {
+      text-decoration: none;
+      font-size: 10pt;
+      display: inline-block;
+      border: 1px #555555 solid;
+      background: #222;
+      padding: 10px 10px 5px 10px;
+      margin: 5px;
+      color: #ccc;
+    }
+
+    a.gallery:hover{
+      border: 1px #aaaaaa solid;
+      color: #fff;
+    }
+
+    img.gallery {
+      margin: auto;
+      height: 200px;
+      max-width: 500px;
     }
   </style>
   </head>
@@ -87,10 +116,13 @@
       </div>
     </div>
 
-    <div class="content">%s
-    </div>
+    <div class="page">%s
 
-    <div class="download">%s
+      <div class="gallery">%s
+      </div>
+
+      <div class="download">%s
+      </div>
     </div>
   </body>
 </html>
