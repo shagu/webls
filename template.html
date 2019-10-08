@@ -1,0 +1,96 @@
+<html>
+  <head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Roboto", "Droid Sans", "Ubuntu Sans", Sans;
+      margin: 0px;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    span.title {
+      font-weight: 300;
+      display: block;
+    }
+
+    span.description {
+      font-size: 12pt;
+    font-weight: 100;
+      color: #555555;
+    }
+
+    div.topbarbg {
+      background: #fff;
+      padding: 20px;
+      height: 40px;
+      border-bottom: 1px #eee solid;
+    }
+
+    div.topbar {
+      font-size: 32pt;
+      color: #000;
+      margin: auto;
+      max-width: 1280px;
+      vertical-align: bottom;
+      line-height: 20pt;
+    }
+
+    div.navbarbg {
+      padding: 5px;
+    }
+
+    div.navbar {
+      margin: auto;
+      max-width: 1280px;
+    }
+
+    div.navbar a {
+      margin: 2px 2px 2px 0px;
+      padding: 10px;
+      border: 1px #eee solid;
+      display: inline-block;
+      background: #fff;
+      color: #555;
+      text-decoration: none;
+    }
+
+    div.navbar a:hover {
+      border: 1px #eee solid;
+      color: #000;
+    }
+
+    div.content {
+      background: #fff;
+      margin: auto;
+      max-width: 1280px;
+    }
+
+    div.subcontent {
+      border: 1px #eee solid;
+      padding: 5px 20px 10px 20px;
+    }
+  </style>
+  </head>
+  <body>
+
+    <div class="topbarbg">
+      <div class="topbar">
+        <span class="title">%s</span>
+        <span class="description">%s</span>
+      </div>
+    </div>
+
+    <div class="navbarbg">
+      <div class="navbar">
+        %s
+      </div>
+    </div>
+
+    <div class="content">%s
+    </div>
+
+    <div class="download">%s
+    </div>
+  </body>
+</html>
