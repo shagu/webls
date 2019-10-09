@@ -2,178 +2,139 @@
   <head>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300&display=swap" rel="stylesheet"/>
   <style>
+    :root {
+      --accent: #555;
+      --border: #eee;
+
+      --bg: #fafafa;
+      --bg-content: #fff;
+      --bg-sidebar: #fff;
+
+      --fg: #000;
+      --fg-sidebar: #222;
+    }
+
     body {
       font-family: "Roboto", "Droid Sans", "Ubuntu Sans", Sans;
       font-size: 12pt;
       margin: 0px;
-      background: #f5f5f5;
-      color: #000000;
+      background: var(--bg);
+      color: var(--fg);
     }
 
-    span.title {
-      color: #fff;
-      font-weight: 300;
-      display: block;
-    }
-
-    span.description {
-      font-size: 12pt;
-      color: #fff;
-    }
-
-    div.topbarbg {
-      background: #222;
-      padding: 20px;
-      height: 40px;
-      border-bottom: 1px #000 solid;
-    }
-
-    div.topbar {
+    .topbar {
       font-size: 32pt;
-      color: #000;
-      margin: auto;
-      max-width: 1280px;
-      vertical-align: bottom;
-      line-height: 20pt;
+      border-bottom: 1px var(--border) solid;
+      background: var(--bg-sidebar);
+      padding: 20px;
+      margin-bottom: 10px;
     }
 
-    div.navbarbg {
-      padding: 5px;
+    .title {
+      display: block;
+      color: var(--accent);
     }
 
-    div.navbar {
-      margin: auto;
-      max-width: 1280px;
+    .description {
+      font-size: 11pt;
+      color: var(--fg-sidebar);
     }
 
-    div.navbar a {
-      margin: 2px 2px 2px 0px;
+    .sidebar {
+      margin: 0px;
+      width: 25%%;
+      background-color: var(--bg-sidebar);
+      border-right: 1px var(--border) solid;
+      position: fixed;
+      height: 100%%;
+      overflow: auto;
+      text-align: right;
+    }
+
+    .sidebar a {
+      display: block;
+      color: var(--fg-sidebar);
       padding: 10px;
-      border: 1px #eee solid;
-      display: inline-block;
-      background: #fff;
-      color: #555;
       text-decoration: none;
+      padding-right: 20px;
     }
 
-    div.navbar a:hover {
-      border: 1px #eee solid;
-      color: #000;
+    .sidebar a:hover {
+      color: var(--accent);
     }
 
-    div.page {
-      margin: auto;
-      max-width: 1280px;
+    .page {
+      margin-left: 25%%;
     }
 
-    div.content {
-      background: #fff;
-      border: 1px #eee solid;
-      padding: 5px 20px 10px 20px;
-    }
-
-    div.gallery {
-      margin: 5px 0px;
-      background: #fff;
-      border: 1px #eee solid;
-    }
-
-    a.gallery {
-      text-decoration: none;
-      font-size: 10pt;
-      display: inline-block;
-      border: 1px #555555 solid;
-      background: #222;
-      padding: 10px 10px 5px 10px;
-      margin: 5px;
-      color: #ccc;
-    }
-
-    a.gallery:hover{
-      border: 1px #aaaaaa solid;
+    .navigation {
+      padding: 10px 20px;
+      border-bottom: 1px var(--border) solid;
+      background: #555;
       color: #fff;
     }
 
-    img.gallery {
-      margin: auto;
-      height: 200px;
-      max-width: 500px;
+    .content {
+      max-width: 1000px;
     }
 
-    div.download {
-      margin: 5px 0px;
-      background: #fff;
-      border: 1px #eee solid;
-    }
-
-    a.download {
-      text-decoration: none;
-      font-size: 12pt;
-      display: inline-block;
-      line-height: 20pt;
-      border: 1px #eee solid;
-      background: #fff;
-      padding: 10px 10px 5px 10px;
+    .text {
+      background: var(--bg-content);
+      border: 1px var(--border) solid;
       margin: 5px;
-      color: #555;
+      padding: 10px;
     }
 
-    a.download:hover{
-      border: 1px #aaaaaa solid;
-      color: #000;
+    .gallery {
+      background: var(--bg-content);
+      border: 1px var(--border) solid;
+      margin: 5px;
+      padding: 10px;
     }
 
-    a.download span {
-      float: right;
-    }
-
-    a.download svg {
-      padding: 0px 5px;
-      float: left;
-      fill: #888;
-    }
-
-    a.download:hover svg {
-      fill: #333;
-    }
-
-    div.footer {
-      display: block;
-      margin: auto;
+    .footer {
       color: #ccc;
-      font-size: 10pt;
+      font-size: 11pt;
       text-align: center;
     }
 
-    div.footer a {
-      font-weight: bold;
-      color: #ccc;
-      text-decoration: none;
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%%;
+        height: auto;
+        position: relative;
+        text-align: center;
+      }
+      .sidebar a {float: left;}
+      div.page {margin-left: 0; padding-left: 0px;}
     }
 
-    div.footer a:hover {
-      text-decoration: underline;
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }
     }
   </style>
   </head>
   <body>
 
-    <div class="topbarbg">
-      <div class="topbar">
-        <span class="title">%s</span>
-        <span class="description">%s</span>
+      <div class="sidebar">
+        <div class="topbar">
+          <span class="title">%s</span>
+          <span class="description">%s</span>
+        </div>
+
+        %s
       </div>
-    </div>
 
-    <div class="navbarbg">
-      <div class="navbar">%s</div>
-    </div>
+      <div class="page">
+        <div class="navigation">home » foo » bar</div>
+        <div class="content">
+          %s
 
-    <div class="page">%s
-
-      <div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>
-    </div>
-
-
+          <div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>
+        </div>
+      </div>
   </body>
 </html>

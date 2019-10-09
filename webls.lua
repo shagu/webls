@@ -93,7 +93,7 @@ local html = {
 
   content = function(tbl)
     local txt = ""
-    local tpl = '<div id="%s" class="content">%s</div>'
+    local tpl = '<div id="%s" class="text">%s</div>'
     if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       txt = txt .. string.format(tpl, name, markdown(text))
