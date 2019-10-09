@@ -136,6 +136,24 @@
     a.download:hover svg {
       fill: #333;
     }
+
+    div.footer {
+      display: block;
+      margin: auto;
+      color: #ccc;
+      font-size: 10pt;
+      text-align: center;
+    }
+
+    div.footer a {
+      font-weight: bold;
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    div.footer a:hover {
+      text-decoration: underline;
+    }
   </style>
   </head>
   <body>
@@ -151,6 +169,11 @@
       <div class="navbar">%s</div>
     </div>
 
-    <div class="page">%s</div>
+    <div class="page">%s
+
+      <div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>
+    </div>
+
+
   </body>
 </html>

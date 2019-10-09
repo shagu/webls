@@ -99,6 +99,10 @@ local html = {
       txt = txt .. string.format(tpl, name, markdown(text))
     end
     return txt
+  end,
+
+  footer = function()
+    return os.date("%B %Y")
   end
 }
 
@@ -173,7 +177,8 @@ for path in pairs(scan()) do
   local file = io.open(config.www .. path .. "/index.html", "w")
   file:write(string.format(html.page(), config.title, config.description,
     html.navbar(navbar[path], path),
-    html.content(content[path]) .. html.gallery(gallery[path]) .. html.download(download[path])
+    html.content(content[path]) .. html.gallery(gallery[path]) .. html.download(download[path]),
+    html.footer()
   ))
 
   file:close()
