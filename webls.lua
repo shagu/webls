@@ -83,7 +83,7 @@ local html = {
 
   gallery = function(tbl)
     local txt = '<div class="gallery">'
-    local tpl = '<a href="%s"><img src="%s"/><br/>%s</a>'
+    local tpl = '<a href="%s"><img src="%s"/><span>%s</span></a>'
     if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))

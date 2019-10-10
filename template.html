@@ -72,8 +72,8 @@
     .navigation {
       padding: 10px 20px;
       border-bottom: 1px var(--border) solid;
-      background: #555;
-      color: #fff;
+      background: var(--border);
+      color: var(--fg);
     }
 
     .content {
@@ -96,8 +96,12 @@
 
     .footer {
       color: #ccc;
-      font-size: 11pt;
+      font-size: 10pt;
       text-align: center;
+    }
+
+    .footer a {
+      color: #ccc;
     }
 
     @media screen and (max-width: 700px) {
@@ -188,6 +192,45 @@
 
     .download a:hover svg {
       fill: var(--fg);
+    }
+
+    .gallery {
+      background: var(--bg-content);
+      border: 1px var(--border) solid;
+      margin: 5px;
+      padding: 10px;
+    }
+
+    .gallery a {
+      text-decoration: none;
+      display: inline-block;
+      background: #222;
+      padding: 5px;
+      margin: 5px;
+      color: #aaa;
+    }
+
+    .gallery a:hover{
+      color: var(--bg-content);
+    }
+
+    .gallery img {
+      transition: opacity .25s ease-in-out;
+      opacity: .8;
+      margin: auto;
+      height: 200px;
+      max-width: 480px;
+    }
+
+    .gallery a:hover img {
+      opacity: 1;
+    }
+
+    .gallery span {
+      font-size: 10pt;
+      display: block;
+      text-align: center;
+      padding: 5px 5px;
     }
   </style>
   </head>
