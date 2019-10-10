@@ -4,12 +4,21 @@
 local config = require("config")
 local lfs = require("lfs")
 local markdown = require("markdown/markdown")
-local images = {
+local is_image = {
   [".png"] = true,
   [".jpg"] = true,
   [".jpeg"] = true,
   [".webp"] = true,
   [".gif"] = true,
+}
+
+local is_download = {
+  [".tar"] = true;
+  [".gz"] = true;
+  [".bz"] = true;
+  [".xz"] = true;
+  [".zip"] = true;
+  [".rar"] = true;
 }
 
 local function empty(tbl)
@@ -147,14 +156,13 @@ local function scan(path, ls)
         content[path][name] = file:read("*all")
         file:close()
         md = true
-      else
-        if images[ext] then
-          gallery[path] = gallery[path] or {}
-           gallery[path][name] = full
-        else
-          download[path] = download[path] or {}
-          download[path][name] = full
-        end
+      elseif is_image[ext] then
+        gallery[path] = gallery[path] or {}
+        gallery[path][name] = full
+        lfs.link(file_in, file_out)
+      elseif is_download[ext] then
+        download[path] = download[path] or {}
+        download[path][name] = full
         lfs.link(file_in, file_out)
       end
     end
