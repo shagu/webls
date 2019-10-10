@@ -3,7 +3,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --accent: #555;
+      --accent: #3a5;
       --border: #eee;
 
       --bg: #fafafa;
@@ -57,10 +57,12 @@
       padding: 10px;
       text-decoration: none;
       padding-right: 20px;
+      border-right: 2px var(--bg-sidebar) solid;
     }
 
     .sidebar a:hover {
       color: var(--accent);
+      border-right: 2px var(--accent) solid;
     }
 
     .page {
@@ -105,16 +107,51 @@
         position: relative;
         text-align: center;
       }
-      .sidebar a {float: left;}
+      .sidebar a {
+        float: left;
+        border-style: hidden;
+      }
+
+      .sidebar a:hover {
+        border-style: hidden;
+        background: var(--border);
+      }
+
       div.page {margin-left: 0; padding-left: 0px;}
     }
 
     @media screen and (max-width: 400px) {
       .sidebar a {
-        text-align: center;
         float: none;
+        text-align: center;
+        border-style: hidden;
+      }
+
+      .sidebar a:hover {
+        border-style: hidden;
+        background: var(--border);
       }
     }
+
+    .content a {
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .content a:hover {
+      text-decoration: underline;
+    }
+
+    .content code {
+      display: block;
+      padding: 10px;
+      background: var(--bg);
+      border: 1px var(--border) solid;
+      color: var(--fg);
+    }
+
+
   </style>
   </head>
   <body>
