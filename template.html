@@ -133,17 +133,17 @@
       }
     }
 
-    .content a {
+    .text a {
       font-weight: bold;
       text-decoration: none;
       color: var(--accent);
     }
 
-    .content a:hover {
+    .text a:hover {
       text-decoration: underline;
     }
 
-    .content code {
+    .text code {
       display: block;
       padding: 10px;
       background: var(--bg);
@@ -152,6 +152,43 @@
     }
 
 
+    .download {
+      background: var(--bg-content);
+      border: 1px var(--border) solid;
+      margin: 5px;
+      padding: 10px;
+    }
+
+    .download a {
+      text-decoration: none;
+      font-size: 12pt;
+      display: inline-block;
+      line-height: 20pt;
+      border: 1px var(--border) solid;
+      background: var(--bg-content);
+      padding: 10px 10px 5px 10px;
+      margin: 5px;
+      color: #555;
+    }
+
+    .download a:hover{
+      border: 1px var(--fg) solid;
+      color: var(--fg-content);
+    }
+
+    .download a span {
+      float: right;
+    }
+
+    .download a svg {
+      padding: 0px 5px;
+      float: left;
+      fill: #aaa;
+    }
+
+    .download a:hover svg {
+      fill: var(--fg);
+    }
   </style>
   </head>
   <body>

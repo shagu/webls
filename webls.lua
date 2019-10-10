@@ -69,7 +69,7 @@ local html = {
 
   download = function(tbl)
     local txt = '<div class="download">'
-    local tpl = '<a class="download" href="%s">'..icons.download..'<span class="caption">%s <small>(%s)</small></span></a>'
+    local tpl = '<a href="%s">'..icons.download..'<span>%s <small>(%s)</small></span></a>'
     if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       local size = lfs.attributes(config.scanpath .. text).size
@@ -83,7 +83,7 @@ local html = {
 
   gallery = function(tbl)
     local txt = '<div class="gallery">'
-    local tpl = '<a class="gallery" href="%s"><img class="gallery" src="%s"/><br/>%s</a>'
+    local tpl = '<a href="%s"><img src="%s"/><br/>%s</a>'
     if not tbl or empty(tbl) then return "" end
     for name, text in spairs(tbl) do
       txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))
