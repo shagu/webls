@@ -219,7 +219,7 @@ for path in pairs(scan()) do
 
   -- write new html files for each path
   local file = io.open(config.www .. path .. "/index.html", "w")
-  file:write(string.format(html.page(), config.title, config.description,
+  file:write(string.format(html.page(), config.website, config.title, config.description,
     html.sidebar(navbar[path], path), html.navbar(navbar[path], path),
     html.content(content[path]) .. html.gallery(gallery[path]) .. html.download(download[path]),
     html.footer()

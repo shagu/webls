@@ -26,9 +26,14 @@
     .topbar {
       font-size: 32pt;
       border-bottom: 1px var(--border) solid;
+      border-right: none !important;
       background: var(--bg-sidebar);
       padding: 20px;
       margin-bottom: 10px;
+    }
+
+    .topbar:hover {
+      border-right: none !important;
     }
 
     .title {
@@ -257,10 +262,10 @@
   </head>
   <body>
       <div class="sidebar">
-        <div class="topbar">
+        <a class="topbar" href="%s">
           <span class="title">%s</span>
           <span class="description">%s</span>
-        </div>
+        </a>
 
         %s
       </div>
