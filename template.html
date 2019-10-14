@@ -17,9 +17,10 @@
     body {
       font-family: "Roboto", "Droid Sans", "Ubuntu Sans", Sans;
       font-size: 12pt;
-      margin: 0px;
       background: var(--bg);
       color: var(--fg);
+      margin: 0px;
+      padding: 0px;
     }
 
     .topbar {
@@ -41,11 +42,12 @@
     }
 
     .sidebar {
-      margin: 0px;
       width: 25%%;
       background-color: var(--bg-sidebar);
       border-right: 1px var(--border) solid;
       position: fixed;
+      top: 0;
+      left: 0;
       height: 100%%;
       overflow: auto;
       text-align: right;
@@ -73,7 +75,26 @@
       padding: 10px 20px;
       border-bottom: 1px var(--border) solid;
       background: var(--border);
+      color: var(--accent);
+      font-size: 11pt;
+    }
+
+    .navigation a {
+      text-decoration: none;
       color: var(--fg);
+    }
+
+    .navigation a:hover {
+      text-decoration: underline;
+    }
+
+    .navigation span {
+      color: var(--fg);
+      font-weight: bold;
+    }
+
+    .back {
+      font-style: italic;
     }
 
     .content {
@@ -235,7 +256,6 @@
   </style>
   </head>
   <body>
-
       <div class="sidebar">
         <div class="topbar">
           <span class="title">%s</span>
@@ -245,11 +265,8 @@
         %s
       </div>
 
-      <div class="page">
-        <div class="navigation">home » foo » bar</div>
-        <div class="content">
-          %s
-
+      <div class="page">%s
+        <div class="content">%s
           <div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>
         </div>
       </div>

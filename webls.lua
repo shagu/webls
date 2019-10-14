@@ -21,6 +21,23 @@ local is_download = {
   [".rar"] = true;
 }
 
+local function strsplit(delimiter, subject)
+  if not subject then return nil end
+  local delimiter, fields = delimiter or ":", {}
+  local pattern = string.format("([^%s]+)", delimiter)
+  string.gsub(subject, pattern, function(c) fields[#fields+1] = c end)
+  return unpack(fields)
+end
+
+local function strrepeat(str, count)
+  local txt = ""
+  for i=1,count do
+    txt = txt .. str
+  end
+
+  return txt
+end
+
 local function empty(tbl)
   for _ in pairs(tbl) do
     return nil
@@ -63,6 +80,25 @@ local html = {
   end,
 
   navbar = function(tbl, path)
+    if not path or path == "" then return '' end
+
+    local txt = '<div class="navigation">'
+    local path = { strsplit('/', path) }
+    local max = #path
+
+    for i, name in pairs(path) do
+      if i == max then
+        txt = txt .. '» <span>' .. name .. '</span>'
+      else
+        txt = txt .. '» <a href="' .. strrepeat("../", max - i) .. 'index.html">' .. name .. '</a> '
+      end
+    end
+
+    txt = txt .. '</div>'
+    return txt
+  end,
+
+  sidebar = function(tbl, path)
     local txt = ""
     local tpl = '<a href="%s/index.html">%s</a>'
     if path ~= "" then
@@ -184,7 +220,7 @@ for path in pairs(scan()) do
   -- write new html files for each path
   local file = io.open(config.www .. path .. "/index.html", "w")
   file:write(string.format(html.page(), config.title, config.description,
-    html.navbar(navbar[path], path),
+    html.sidebar(navbar[path], path), html.navbar(navbar[path], path),
     html.content(content[path]) .. html.gallery(gallery[path]) .. html.download(download[path]),
     html.footer()
   ))
