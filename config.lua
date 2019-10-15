@@ -9,4 +9,7 @@ return {
 
   -- the output directory that is later used as webroot
   www         = "www",
+
+  -- modules that should be used for parsing
+  modules     = { "markdown", "gallery", "download", "footer" }
 }

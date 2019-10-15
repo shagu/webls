@@ -4,23 +4,8 @@
 local config = require("config")
 local lfs = require("lfs")
 local markdown = require("markdown/markdown")
-local is_image = {
-  [".png"] = true,
-  [".jpg"] = true,
-  [".jpeg"] = true,
-  [".webp"] = true,
-  [".gif"] = true,
-}
 
-local is_download = {
-  [".tar"] = true;
-  [".gz"] = true;
-  [".bz2"] = true;
-  [".xz"] = true;
-  [".zip"] = true;
-  [".rar"] = true;
-}
-
+-- core functions
 local function strsplit(delimiter, subject)
   if not subject then return nil end
   local delimiter, fields = delimiter or ":", {}
@@ -67,102 +52,95 @@ local function spairs(t, index, reverse)
   end
 end
 
+-- elements
 local icons = {
   ["download"] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
 }
 
-local html = {
-  page = function()
-    local file = io.open("template.html", "rb")
-    local content = file:read("*all")
-    file:close()
-    return content
-  end,
+local parser = {
+  ["footer"] = {
+    extensions = {},
+    build = function()
+      return string.format('<div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>', os.date("%B %Y"))
+    end
+  },
 
-  navbar = function(tbl, path)
-    if not path or path == "" then return '' end
+  ["markdown"] = {
+    extensions = { ".md", ".txt" },
+    prepare = function(self, path, name, fin, fout)
+      local file = io.open(fin, "rb")
+      self.cache = self.cache or {}
+      self.cache[path] = self.cache[path] or {}
+      self.cache[path][name]= file:read("*all")
+      file:close()
+    end,
 
-    local txt = '<div class="navigation">'
-    local path = { strsplit('/', path) }
-    local max = #path
+    build = function(self, path)
+      local txt = ""
+      local tpl = '<div id="%s" class="text">%s</div>'
+      if not self.cache[path] or empty(self.cache[path]) then return "" end
 
-    for i, name in pairs(path) do
-      if i == max then
-        txt = txt .. '» <span>' .. name .. '</span>'
-      else
-        txt = txt .. '» <a href="' .. strrepeat("../", max - i) .. 'index.html">' .. name .. '</a> '
+      for name, text in spairs(self.cache[path]) do
+        txt = txt .. string.format(tpl, name, markdown(text))
       end
+      return txt
     end
+  },
 
-    txt = txt .. '</div>'
-    return txt
-  end,
+  ["gallery"] = {
+    extensions = { ".png", ".jpg", ".jpeg", ".webp", ".gif" },
+    prepare = function(self, path, name, fin, fout)
+      self.cache = self.cache or {}
+      self.cache[path] = self.cache[path] or {}
+      self.cache[path][name] = path..'/'..name
+      lfs.link(fin, fout)
+    end,
 
-  sidebar = function(tbl, path)
-    local txt = ""
-    local tpl = '<a href="%s/index.html">%s</a>'
-    if path ~= "" then
-      txt = txt .. '<a class="back" href="../index.html">« Back</a>'
-    end
+    build = function(self, path)
+      local txt = '<div class="gallery">'
+      local tpl = '<a href="%s"><img src="%s"/><span>%s</span></a>'
+      if not self.cache[path] or empty(self.cache[path]) then return "" end
 
-    if not tbl or empty(tbl) then return txt end
-    for name, _ in spairs(tbl) do
-      txt = txt .. string.format(tpl, name, name)
-    end
-    return txt
-  end,
-
-  download = function(tbl)
-    local txt = '<div class="download">'
-    local tpl = '<a href="%s">'..icons.download..'<span>%s <small>(%s)</small></span></a>'
-    if not tbl or empty(tbl) then return "" end
-    for name, text in spairs(tbl) do
-      local size = lfs.attributes(config.scanpath .. text).size
-      if size then
-        size = size > 1048576 and round(size / 1048576) .. " MB" or size > 1024 and round(size / 1024) .. " KB" or size .. " B"
-        txt = txt .. string.format(tpl, name, name, size)
+      for name, text in spairs(self.cache[path]) do
+        txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))
       end
+      return txt .. "</div>"
     end
-    return txt .. '</div>'
-  end,
+  },
 
-  gallery = function(tbl)
-    local txt = '<div class="gallery">'
-    local tpl = '<a href="%s"><img src="%s"/><span>%s</span></a>'
-    if not tbl or empty(tbl) then return "" end
-    for name, text in spairs(tbl) do
-      txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))
+  ["download"] = {
+    extensions = { ".tar", ".gz", ".bz2", ".xz", ".zip", ".rar" },
+    prepare = function(self, path, name, fin, fout)
+      self.cache = self.cache or {}
+      self.cache[path] = self.cache[path] or {}
+      self.cache[path][name] = path..'/'..name
+      lfs.link(fin, fout)
+    end,
+
+    build = function(self, path)
+      local txt = '<div class="download">'
+      local tpl = '<a href="%s">'..icons.download..'<span>%s <small>(%s)</small></span></a>'
+      if not self.cache[path] or empty(self.cache[path]) then return "" end
+
+      for name, text in spairs(self.cache[path]) do
+        local size = lfs.attributes(config.scanpath .. text).size
+        if size then
+          size = size > 1048576 and round(size / 1048576) .. " MB" or size > 1024 and round(size / 1024) .. " KB" or size .. " B"
+          txt = txt .. string.format(tpl, name, name, size)
+        end
+      end
+      return txt .. '</div>'
     end
-    return txt .. "</div>"
-  end,
-
-  content = function(tbl)
-    local txt = ""
-    local tpl = '<div id="%s" class="text">%s</div>'
-    if not tbl or empty(tbl) then return "" end
-    for name, text in spairs(tbl) do
-      txt = txt .. string.format(tpl, name, markdown(text))
-    end
-    return txt
-  end,
-
-  footer = function()
-    return os.date("%B %Y")
-  end
+  },
 }
 
 -- content cache
-local navbar = {}
-local content = {}
-local gallery = {}
-local download = {}
-local ignored = {}
-
+local folders = {}
 local function scan(path, ls)
   local ls = ls or {}
   if not path then path = "" end
 
-  local md = nil
+  local valid = nil
 
   for name in lfs.dir(config.scanpath .. "/" .. path) do
     if name ~= "." and name ~= ".." then
@@ -180,31 +158,31 @@ local function scan(path, ls)
       ls[path] = full
 
       if ext == "folder" then
-        local _, md = scan(full, ls)
-        -- only create navbar entry when markdown is found
-        if md then
-          navbar[path] = navbar[path] or {}
-          navbar[path][name] = full
+        local _, valid = scan(full, ls)
+        if valid then
+          folders[path] = folders[path] or {}
+          folders[path][name] = full
         end
-      elseif ext == ".md" then
-        local file = io.open(file_in, "rb")
-        content[path] = content[path] or {}
-        content[path][name] = file:read("*all")
-        file:close()
-        md = true
-      elseif is_image[ext] then
-        gallery[path] = gallery[path] or {}
-        gallery[path][name] = full
-        lfs.link(file_in, file_out)
-      elseif is_download[ext] then
-        download[path] = download[path] or {}
-        download[path][name] = full
-        lfs.link(file_in, file_out)
+      end
+
+      for _, m in pairs(config.modules) do
+        if not parser[m] then -- throw error on non-existing module
+          print(string.format('ERROR: module "%s" could not be found. Check your configuration file', m))
+          return
+        else
+          -- check for compatible parsers based on extension
+          for _, mext in pairs(parser[m].extensions) do
+            if ext == mext then
+              parser[m]:prepare(path, name, file_in, file_out)
+              valid = true
+            end
+          end
+        end
       end
     end
   end
 
-  return ls, md
+  return ls, valid
 end
 
 -- create output directory if not yet existing
@@ -214,15 +192,42 @@ end
 
 -- iterate over all paths in content directory
 for path in pairs(scan()) do
-  -- keep all contents sorted
-  table.sort(content)
+  -- load template layout
+  local file = io.open("template.html", "rb")
+  local template = file:read("*all")
+  file:close()
+
+  -- load all content modules
+  local page = ""
+  for _, m in pairs(config.modules) do
+    page = page .. parser[m]:build(path)
+  end
+
+  -- load sidebar
+  local sidebar = path == "" and "" or '<a class="back" href="../index.html">« Back</a>'
+  if folders[path] and not empty(folders[path]) then
+    for name, _ in spairs(folders[path]) do
+      sidebar = sidebar .. string.format('<a href="%s/index.html">%s</a>', name, name)
+    end
+  end
+
+  -- load navbar
+  local navbar = path == "" and "" or '<div class="navigation">'
+  local elements = { strsplit('/', path) }
+  local max = #elements
+  for i, name in pairs(elements) do
+    if i < max then
+      navbar = navbar .. '» <a href="' .. strrepeat("../", max - i) .. 'index.html">' .. name .. '</a> '
+    else
+      navbar = navbar .. '» <span>' .. name .. '</span>'
+    end
+  end
+  navbar = navbar == "" and "" or navbar .. '</div>'
 
   -- write new html files for each path
   local file = io.open(config.www .. path .. "/index.html", "w")
-  file:write(string.format(html.page(), config.website, config.title, config.description,
-    html.sidebar(navbar[path], path), html.navbar(navbar[path], path),
-    html.content(content[path]) .. html.gallery(gallery[path]) .. html.download(download[path]),
-    html.footer()
+  file:write(string.format(template, config.website, config.title, config.description,
+    sidebar, navbar, page
   ))
 
   file:close()
