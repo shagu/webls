@@ -5,7 +5,7 @@ local config = require("config")
 local lfs = require("lfs")
 local markdown = require("markdown/markdown")
 
--- core functions
+-- simple helper functions
 local function strsplit(delimiter, subject)
   if not subject then return nil end
   local delimiter, fields = delimiter or ":", {}
@@ -14,20 +14,12 @@ local function strsplit(delimiter, subject)
   return unpack(fields)
 end
 
-local function strrepeat(str, count)
-  local txt = ""
-  for i=1,count do
-    txt = txt .. str
-  end
-
-  return txt
+local function escape(str)
+  return (string.gsub(str, "%%", "%%%%"))
 end
 
 local function empty(tbl)
-  for _ in pairs(tbl) do
-    return nil
-  end
-
+  for _ in pairs(tbl) do return nil end
   return true
 end
 
@@ -36,13 +28,10 @@ local function round(num)
 end
 
 local function spairs(t, index, reverse)
-  -- collect the keys
   local keys = {}
   for k in pairs(t) do keys[#keys+1] = k end
-
   table.sort(keys)
 
-  -- return the iterator function
   local i = 0
   return function()
     i = i + 1
@@ -58,13 +47,6 @@ local icons = {
 }
 
 local parser = {
-  ["footer"] = {
-    extensions = {},
-    build = function()
-      return string.format('<div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>', os.date("%B %Y"))
-    end
-  },
-
   ["markdown"] = {
     extensions = { ".md", ".txt" },
     prepare = function(self, path, name, fin, fout)
@@ -132,6 +114,12 @@ local parser = {
       return txt .. '</div>'
     end
   },
+
+  ["footer"] = {
+    build = function()
+      return string.format('<div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>', os.date("%B %Y"))
+    end
+  },
 }
 
 -- content cache
@@ -139,7 +127,6 @@ local folders = {}
 local function scan(path, ls)
   local ls = ls or {}
   if not path then path = "" end
-
   local valid = nil
 
   for name in lfs.dir(config.scanpath .. "/" .. path) do
@@ -151,10 +138,8 @@ local function scan(path, ls)
 
       local file_in = config.scanpath.."/"..full
       local file_out = config.www.."/"..full
-      local dir_in = config.scanpath.."/"..path
-      local dir_out = config.www.."/"..path
 
-      lfs.mkdir(dir_out)
+      lfs.mkdir(config.www.."/"..path)
       ls[path] = full
 
       if ext == "folder" then
@@ -169,7 +154,7 @@ local function scan(path, ls)
         if not parser[m] then -- throw error on non-existing module
           print(string.format('ERROR: module "%s" could not be found. Check your configuration file', m))
           return
-        else
+        elseif parser[m].extensions then
           -- check for compatible parsers based on extension
           for _, mext in pairs(parser[m].extensions) do
             if ext == mext then
@@ -194,7 +179,7 @@ end
 for path in pairs(scan()) do
   -- load template layout
   local file = io.open("template.html", "rb")
-  local template = file:read("*all")
+  local website = file:read("*all")
   file:close()
 
   -- load all content modules
@@ -217,18 +202,23 @@ for path in pairs(scan()) do
   local max = #elements
   for i, name in pairs(elements) do
     if i < max then
-      navbar = navbar .. '» <a href="' .. strrepeat("../", max - i) .. 'index.html">' .. name .. '</a> '
+      navbar = navbar .. '» <a href="' .. string.rep("../", max - i) .. 'index.html">' .. name .. '</a> '
     else
       navbar = navbar .. '» <span>' .. name .. '</span>'
     end
   end
   navbar = navbar == "" and "" or navbar .. '</div>'
 
-  -- write new html files for each path
-  local file = io.open(config.www .. path .. "/index.html", "w")
-  file:write(string.format(template, config.website, config.title, config.description,
-    sidebar, navbar, page
-  ))
+  -- write all contents
+  website = string.gsub(website, "%%%%website%%%%", escape(config.website))
+  website = string.gsub(website, "%%%%title%%%%", escape(config.title))
+  website = string.gsub(website, "%%%%description%%%%", escape(config.description))
+  website = string.gsub(website, "%%%%sidebar%%%%", escape(sidebar))
+  website = string.gsub(website, "%%%%navbar%%%%", escape(navbar))
+  website = string.gsub(website, "%%%%page%%%%", escape(page))
 
-  file:close()
+  -- write new generated website
+  local out = io.open(config.www .. path .. "/index.html", "w")
+  out:write(website)
+  out:close()
 end
