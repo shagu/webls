@@ -157,18 +157,7 @@ local parser = {
 
     build = function(self, path)
       if not self.cache[path] then return "" end
-
-      local html = [[
-      <div class="git">
-        <div id="container">
-          <span id="icon">%s</span>
-          <span id="url"><code>%s</code></span>
-          %s
-        </div>
-        %s
-      </div>
-      ]]
-
+      local html = '<div class="git"><div id="container"><span id="icon">%s</span><span id="url"><code>%s</code></span>%s</div>%s</div>'
       local zip = self.cache[path].zip and '<span id="download"><a href=' .. self.cache[path].zip .. '>Download</a></span>' or ""
       local history = self.cache[path].history and '<span id="history"><a href=' .. self.cache[path].history .. '>History</a></span>' or ""
       return string.format(html, icons.git, self.cache[path].remote, zip, history)
@@ -183,11 +172,9 @@ local parser = {
 }
 
 -- content cache
-local folders = {}
-local function scan(path, ls)
-  local ls = ls or {}
-  if not path then path = "" end
-  local valid = nil
+local folders, pages = {}, {}
+local function scan(path)
+  local path = path or ""
 
   for name in lfs.dir(config.scanpath .. "/" .. path) do
     if name ~= "." and name ~= ".." then
@@ -195,16 +182,15 @@ local function scan(path, ls)
       local attr = lfs.attributes(config.scanpath .. "/" .. full)
       local file = attr.mode == "file" and true or nil
       local ext = not file and "folder" or full:match("^.+(%..+)$") or ""
-
       local file_in = config.scanpath.."/"..full
       local file_out = config.www.."/"..full
 
+      -- make sure directory exists
       lfs.mkdir(config.www.."/"..path)
-      ls[path] = full
 
       if ext == "folder" then
-        local _, valid = scan(full, ls)
-        if valid then
+        scan(full)
+        if pages[full] then
           folders[path] = folders[path] or {}
           folders[path][name] = full
         end
@@ -219,7 +205,9 @@ local function scan(path, ls)
           for _, mext in pairs(parser[m].extensions) do
             if ext == mext or mext == "*" then
               parser[m]:prepare(path, name, file_in, file_out)
-              if not parser[m].passive then valid = true end
+              if not parser[m].passive then
+                pages[path] = true
+              end
             end
           end
         end
@@ -227,12 +215,7 @@ local function scan(path, ls)
     end
   end
 
-  return ls, valid
-end
-
--- create output directory if not yet existing
-if not lfs.attributes(config.www) then
-  lfs.mkdir(config.www)
+  return pages
 end
 
 -- iterate over all paths in content directory
