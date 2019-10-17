@@ -75,9 +75,10 @@ local parser = {
     end,
 
     build = function(self, path)
+      if not self.cache or not self.cache[path] or empty(self.cache[path]) then return "" end
+
       local txt = ""
       local tpl = '<div id="%s" class="text">%s</div>'
-      if not self.cache[path] or empty(self.cache[path]) then return "" end
 
       for name, text in spairs(self.cache[path]) do
         txt = txt .. string.format(tpl, name, markdown(text))
@@ -96,9 +97,10 @@ local parser = {
     end,
 
     build = function(self, path)
+      if not self.cache or not self.cache[path] or empty(self.cache[path]) then return "" end
+
       local txt = '<div class="gallery">'
       local tpl = '<a href="%s"><img src="%s"/><span>%s</span></a>'
-      if not self.cache[path] or empty(self.cache[path]) then return "" end
 
       for name, text in spairs(self.cache[path]) do
         txt = txt .. string.format(tpl, name, name, name:match("^(.+)%..+$"))
@@ -117,9 +119,10 @@ local parser = {
     end,
 
     build = function(self, path)
+      if not self.cache or not self.cache[path] or empty(self.cache[path]) then return "" end
+
       local txt = '<div class="download">'
       local tpl = '<a href="%s">'..icons.file..'<span>%s <small>(%s)</small></span></a>'
-      if not self.cache[path] or empty(self.cache[path]) then return "" end
 
       for name, text in spairs(self.cache[path]) do
         local size = lfs.attributes(config.scanpath .. text).size
@@ -156,7 +159,7 @@ local parser = {
     end,
 
     build = function(self, path)
-      if not self.cache[path] then return "" end
+      if not self.cache or not self.cache[path] then return "" end
       local html = '<div class="git"><div id="container"><span id="icon">%s</span><span id="url"><code>%s</code></span>%s</div>%s</div>'
       local zip = self.cache[path].zip and '<span id="download"><a href=' .. self.cache[path].zip .. '>Download</a></span>' or ""
       local history = self.cache[path].history and '<span id="history"><a href=' .. self.cache[path].history .. '>History</a></span>' or ""
