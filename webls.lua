@@ -43,8 +43,25 @@ end
 
 -- elements
 local icons = {
-  ["download"] = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>',
-}
+    ["file"] = [[
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3
+        6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12
+        5l.81-1h12l.94 1H5.12z"/><path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    ]],
+    ["git"] = [[
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 97 97" enable-background="new 0 0 97 97" xml:space="preserve"><g>
+	    <path fill="#F05133" d="M92.71,44.408L52.591,4.291c-2.31-2.311-6.057-2.311-8.369,0l-8.33,8.332L46.459,23.19
+		  c2.456-0.83,5.272-0.273,7.229,1.685c1.969,1.97,2.521,4.81,1.67,7.275l10.186,10.185c2.465-0.85,5.307-0.3,7.275,1.671
+		  c2.75,2.75,2.75,7.206,0,9.958c-2.752,2.751-7.208,2.751-9.961,0c-2.068-2.07-2.58-5.11-1.531-7.658l-9.5-9.499v24.997
+		  c0.67,0.332,1.303,0.774,1.861,1.332c2.75,2.75,2.75,7.206,0,9.959c-2.75,2.749-7.209,2.749-9.957,0c-2.75-2.754-2.75-7.21,0-9.959
+		  c0.68-0.679,1.467-1.193,2.307-1.537V36.369c-0.84-0.344-1.625-0.853-2.307-1.537c-2.083-2.082-2.584-5.14-1.516-7.698
+		  L31.798,16.715L4.288,44.222c-2.311,2.313-2.311,6.06,0,8.371l40.121,40.118c2.31,2.311,6.056,2.311,8.369,0L92.71,52.779
+		  C95.021,50.468,95.021,46.719,92.71,44.408z"/>
+      </g></svg>
+    ]],
+  }
 
 local parser = {
   ["markdown"] = {
@@ -55,7 +72,6 @@ local parser = {
       self.cache[path] = self.cache[path] or {}
       self.cache[path][name]= file:read("*all")
       file:close()
-      return true
     end,
 
     build = function(self, path)
@@ -77,7 +93,6 @@ local parser = {
       self.cache[path] = self.cache[path] or {}
       self.cache[path][name] = path..'/'..name
       lfs.link(fin, fout)
-      return true
     end,
 
     build = function(self, path)
@@ -99,12 +114,11 @@ local parser = {
       self.cache[path] = self.cache[path] or {}
       self.cache[path][name] = path..'/'..name
       lfs.link(fin, fout)
-      return true
     end,
 
     build = function(self, path)
       local txt = '<div class="download">'
-      local tpl = '<a href="%s">'..icons.download..'<span>%s <small>(%s)</small></span></a>'
+      local tpl = '<a href="%s">'..icons.file..'<span>%s <small>(%s)</small></span></a>'
       if not self.cache[path] or empty(self.cache[path]) then return "" end
 
       for name, text in spairs(self.cache[path]) do
@@ -115,6 +129,49 @@ local parser = {
         end
       end
       return txt .. '</div>'
+    end
+  },
+
+  ["git"] = {
+    passive = true,
+    extensions = { "*" },
+    prepare = function(self, path, name, fin, fout)
+      self.cache = self.cache or {}
+      if not self.cache[path] then
+        local file = io.open(config.scanpath .. path .. "/.git/config", "rb")
+        if not file then return nil end
+        local remote, _ = file:read("*all")
+        _, _, remote = string.find(remote, ".+url = (.-)\n.+")
+
+        local zip
+        if string.find(remote, "//gitlab.com") then
+          zip = remote .. "/-/archive/master" .. remote:match("^.+(/.+)$") .. "-master.zip"
+        elseif string.find(remote, "//github.com") then
+          zip = remote .. "/archive/master.zip"
+        end
+
+        self.cache[path] = { ["remote"] = remote, ["zip"] = zip }
+        file:close()
+      end
+    end,
+
+    build = function(self, path)
+      if not self.cache[path] then return "" end
+
+      local html = [[
+      <div class="git">
+        <div id="container">
+          <span id="icon">%s</span>
+          <span id="url"><code>%s</code></span>
+          %s
+        </div>
+        %s
+      </div>
+      ]]
+
+      local zip = self.cache[path].zip and '<span id="download"><a href=' .. self.cache[path].zip .. '>Download</a></span>' or ""
+      local history = self.cache[path].history and '<span id="history"><a href=' .. self.cache[path].history .. '>History</a></span>' or ""
+      return string.format(html, icons.git, self.cache[path].remote, zip, history)
     end
   },
 
@@ -161,7 +218,8 @@ local function scan(path, ls)
           -- check for compatible parsers based on extension
           for _, mext in pairs(parser[m].extensions) do
             if ext == mext or mext == "*" then
-              valid = valid or parser[m]:prepare(path, name, file_in, file_out)
+              parser[m]:prepare(path, name, file_in, file_out)
+              if not parser[m].passive then valid = true end
             end
           end
         end

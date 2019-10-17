@@ -217,6 +217,8 @@
     }
 
     .download a svg {
+      width: 24px;
+      height: 24px;
       padding: 0px 5px;
       float: left;
       fill: #aaa;
@@ -263,6 +265,54 @@
       display: block;
       text-align: center;
       padding: 5px 5px;
+    }
+
+    .git {
+      background: var(--bg-content);
+      border: 1px var(--border) solid;
+      margin: 5px;
+      padding: 10px;
+    }
+
+    .git #container {
+      display: table;
+      width: 100%;
+      border-spacing: 10px;
+    }
+
+    .git #container span {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .git #icon {
+      display: table-cell;
+      width: 24px;
+    }
+
+    .git #url {
+      display: table-cell;
+      border: 1px var(--border) solid;
+      background: var(--bg-content);
+      color: var(--fg);
+      font-family: monospace;
+    }
+
+    .git #download {
+      display: table-cell;
+      background: var(--bg);
+      border: 1px var(--border) solid;
+      font-size: 11pt;
+    }
+
+    .git #download a {
+      display: block;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .git #download:hover {
+      border: 1px var(--accent) solid;
     }
   </style>
   </head>

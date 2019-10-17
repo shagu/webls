@@ -11,5 +11,5 @@ return {
   www         = "www",
 
   -- modules that should be used for parsing
-  modules     = { "markdown", "gallery", "download", "footer" }
+  modules     = { "markdown", "git", "gallery", "download", "footer" }
 }
