@@ -189,10 +189,10 @@ for path in pairs(scan()) do
   end
 
   -- load sidebar
-  local sidebar = path == "" and "" or '<a class="back" href="../index.html">« Back</a>'
+  local sidebar = path == "" and "" or '<a class="back sidelink" href="../index.html">« Back</a>'
   if folders[path] and not empty(folders[path]) then
     for name, _ in spairs(folders[path]) do
-      sidebar = sidebar .. string.format('<a href="%s/index.html">%s</a>', name, name)
+      sidebar = sidebar .. string.format('<a class="sidelink" href="%s/index.html">%s</a>', name, name)
     end
   end
 

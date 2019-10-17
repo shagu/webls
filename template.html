@@ -39,6 +39,11 @@
     .title {
       display: block;
       color: var(--accent);
+      text-decoration: none;
+    }
+
+    .title:hover {
+      text-decoration: underline;
     }
 
     .description {
@@ -58,7 +63,7 @@
       text-align: right;
     }
 
-    .sidebar a {
+    .sidebar a.sidelink {
       display: block;
       color: var(--fg-sidebar);
       padding: 10px;
@@ -67,7 +72,7 @@
       border-right: 2px var(--bg-sidebar) solid;
     }
 
-    .sidebar a:hover {
+    .sidebar a.sidelink:hover {
       color: var(--accent);
       border-right: 2px var(--accent) solid;
     }
@@ -138,12 +143,12 @@
         position: relative;
         text-align: center;
       }
-      .sidebar a {
+      .sidebar a.sidelink {
         float: left;
         border-style: hidden;
       }
 
-      .sidebar a:hover {
+      .sidebar a.sidelink:hover {
         border-style: hidden;
         background: var(--border);
       }
@@ -152,13 +157,13 @@
     }
 
     @media screen and (max-width: 400px) {
-      .sidebar a {
+      .sidebar a.sidelink {
         float: none;
         text-align: center;
         border-style: hidden;
       }
 
-      .sidebar a:hover {
+      .sidebar a.sidelink:hover {
         border-style: hidden;
         background: var(--border);
       }
@@ -263,10 +268,10 @@
   </head>
   <body>
     <div class="sidebar">
-      <a class="topbar" href="%%website%%">
-        <span class="title">%%title%%</span>
+      <div class="topbar">
+        <a class="title" href="%%website%%">%%title%%</a>
         <span class="description">%%description%%</span>
-      </a>
+      </div>
       %%sidebar%%
     </div>
 
