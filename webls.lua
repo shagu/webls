@@ -55,6 +55,7 @@ local parser = {
       self.cache[path] = self.cache[path] or {}
       self.cache[path][name]= file:read("*all")
       file:close()
+      return true
     end,
 
     build = function(self, path)
@@ -76,6 +77,7 @@ local parser = {
       self.cache[path] = self.cache[path] or {}
       self.cache[path][name] = path..'/'..name
       lfs.link(fin, fout)
+      return true
     end,
 
     build = function(self, path)
@@ -97,6 +99,7 @@ local parser = {
       self.cache[path] = self.cache[path] or {}
       self.cache[path][name] = path..'/'..name
       lfs.link(fin, fout)
+      return true
     end,
 
     build = function(self, path)
@@ -157,9 +160,8 @@ local function scan(path, ls)
         elseif parser[m].extensions then
           -- check for compatible parsers based on extension
           for _, mext in pairs(parser[m].extensions) do
-            if ext == mext then
-              parser[m]:prepare(path, name, file_in, file_out)
-              valid = true
+            if ext == mext or mext == "*" then
+              valid = valid or parser[m]:prepare(path, name, file_in, file_out)
             end
           end
         end
