@@ -1,0 +1,19 @@
+pages:
+  stage: deploy
+  image: archlinux/base:latest
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
+  before_script:
+    - pacman --noconfirm -Syu
+    - pacman --noconfirm -S lua lua-filesystem git
+    - git clone --recursive https://gitlab.com/shagu/webls.git .webls
+
+  script:
+    - ln -s content .webls/content
+    - cd .webls && ./webls.lua
+    - mv .webls/www public
+
+  artifacts:
+    paths:
+    - public
