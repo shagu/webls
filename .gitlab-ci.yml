@@ -7,11 +7,12 @@ pages:
   before_script:
     - pacman --noconfirm -Syu
     - pacman --noconfirm -S lua lua-filesystem git
-    - git clone --recursive https://gitlab.com/shagu/webls.git .webls
+    - git clone --recursive https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/shagu/webls.git .webls
 
   script:
-    - ln -s content .webls/content
-    - cd .webls && ./webls.lua
+    - if ! [ -d content ]; then mkdir content; cp README.md content/; fi
+    - cp -rf content .webls/content
+    - ( cd .webls && ./webls.lua )
     - mv .webls/www public
 
   artifacts:
