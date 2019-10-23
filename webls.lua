@@ -223,6 +223,11 @@ end
 
 -- iterate over all paths in content directory
 for path in pairs(scan()) do
+  -- load basepath
+  local elements = { strsplit('/', path) }
+  local basepath = string.rep("../", #elements)
+  local mainpage = basepath .. "index.html"
+
   -- load template layout
   local file = io.open("template.html", "rb")
   local website = file:read("*all")
@@ -244,11 +249,9 @@ for path in pairs(scan()) do
 
   -- load navbar
   local navbar = path == "" and "" or '<div class="navigation">'
-  local elements = { strsplit('/', path) }
-  local max = #elements
   for i, name in pairs(elements) do
-    if i < max then
-      navbar = navbar .. '» <a href="' .. string.rep("../", max - i) .. 'index.html">' .. name .. '</a> '
+    if i < #elements then
+      navbar = navbar .. '» <a href="' .. string.rep("../", #elements - i) .. 'index.html">' .. name .. '</a> '
     else
       navbar = navbar .. '» <span>' .. name .. '</span>'
     end
@@ -256,7 +259,7 @@ for path in pairs(scan()) do
   navbar = navbar == "" and "" or navbar .. '</div>'
 
   -- write all contents
-  website = string.gsub(website, "%%%%website%%%%", escape(config.website))
+  website = string.gsub(website, "%%%%website%%%%", escape(basepath .. "index.html"))
   website = string.gsub(website, "%%%%title%%%%", escape(config.title))
   website = string.gsub(website, "%%%%description%%%%", escape(config.description))
   website = string.gsub(website, "%%%%sidebar%%%%", escape(sidebar))
