@@ -226,7 +226,19 @@ for path in pairs(scan()) do
   -- load basepath
   local elements = { strsplit('/', path) }
   local basepath = string.rep("../", #elements)
-  local mainpage = basepath .. "index.html"
+
+  -- write stylesheet into the root directory
+  if #elements == 0 then
+    local file = io.open("style.css", "rb")
+    local content = file:read("*all")
+    file:close()
+
+    content = string.gsub(content, "%%%%basepath%%%%", escape(basepath))
+
+    local out = io.open(config.www .. path .. "/style.css", "w")
+    out:write(content)
+    out:close()
+  end
 
   -- load template layout
   local file = io.open("template.html", "rb")
@@ -259,7 +271,7 @@ for path in pairs(scan()) do
   navbar = navbar == "" and "" or navbar .. '</div>'
 
   -- write all contents
-  website = string.gsub(website, "%%%%website%%%%", escape(basepath .. "index.html"))
+  website = string.gsub(website, "%%%%basepath%%%%", escape(basepath))
   website = string.gsub(website, "%%%%title%%%%", escape(config.title))
   website = string.gsub(website, "%%%%description%%%%", escape(config.description))
   website = string.gsub(website, "%%%%sidebar%%%%", escape(sidebar))
