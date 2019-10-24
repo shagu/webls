@@ -4,6 +4,9 @@ return {
   description = "a simple website generator",
   website     = "https://example.org",
 
+  -- add "index.html" to the end of each link
+  pagesuffix  = true,
+
   -- folder that shall be scanned for content
   scanpath    = "content",
 

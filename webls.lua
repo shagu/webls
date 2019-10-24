@@ -226,6 +226,7 @@ for path in pairs(scan()) do
   -- load basepath
   local elements = { strsplit('/', path) }
   local basepath = string.rep("../", #elements)
+  local pagesuffix = config.pagesuffix and "index.html" or ""
 
   -- write stylesheet into the root directory
   if #elements == 0 then
@@ -259,10 +260,10 @@ for path in pairs(scan()) do
   end
 
   -- load sidebar
-  local sidebar = path == "" and "" or '<a class="back sidelink" href="../index.html">« Back</a>'
+  local sidebar = path == "" and "" or '<a class="back sidelink" href="../' .. pagesuffix .. '">« Back</a>'
   if folders[path] and not empty(folders[path]) then
     for name, _ in spairs(folders[path]) do
-      sidebar = sidebar .. string.format('<a class="sidelink" href="%s/index.html">%s</a>', name, name)
+      sidebar = sidebar .. string.format('<a class="sidelink" href="%s/' .. pagesuffix .. '">%s</a>', name, name)
     end
   end
 
@@ -270,7 +271,7 @@ for path in pairs(scan()) do
   local navbar = path == "" and "" or '<div class="navigation">'
   for i, name in pairs(elements) do
     if i < #elements then
-      navbar = navbar .. '» <a href="' .. string.rep("../", #elements - i) .. 'index.html">' .. name .. '</a> '
+      navbar = navbar .. '» <a href="' .. string.rep("../", #elements - i) .. pagesuffix .. '">' .. name .. '</a> '
     else
       navbar = navbar .. '» <span>' .. name .. '</span>'
     end
@@ -279,6 +280,7 @@ for path in pairs(scan()) do
 
   -- write all contents
   website = string.gsub(website, "%%%%basepath%%%%", escape(basepath))
+  website = string.gsub(website, "%%%%pagesuffix%%%%", escape(pagesuffix))
   website = string.gsub(website, "%%%%title%%%%", escape(config.title))
   website = string.gsub(website, "%%%%description%%%%", escape(config.description))
   website = string.gsub(website, "%%%%sidebar%%%%", escape(sidebar))
