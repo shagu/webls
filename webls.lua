@@ -1,4 +1,4 @@
-#!/bin/env lua
+#!/usr/bin/env lua
 -- depends: lua-filesystem
 
 local config = require("config")
