@@ -235,13 +235,13 @@ for path in pairs(scan()) do
     file:close()
 
     -- replace by config colors
-    content = string.gsub(content, "(--accent: ).-;",      "%1" .. config.colors["accent"] .. ";")
-    content = string.gsub(content, "(--border: ).-;",      "%1" .. config.colors["border"] .. ";")
-    content = string.gsub(content, "(--bg: ).-;",          "%1" .. config.colors["bg-page"] .. ";")
-    content = string.gsub(content, "(--bg%-content: ).-;", "%1" .. config.colors["bg-content"] .. ";")
-    content = string.gsub(content, "(--bg%-sidebar: ).-;", "%1" .. config.colors["bg-sidebar"] .. ";")
-    content = string.gsub(content, "(--fg: ).-;",          "%1" .. config.colors["fg-page"] .. ";")
-    content = string.gsub(content, "(--fg%-sidebar: ).-;", "%1" .. config.colors["fg-sidebar"] .. ";")
+    content = string.gsub(content, "(--accent: )#.-;",      "%1" .. config.colors["accent"] .. ";")
+    content = string.gsub(content, "(--border: )#.-;",      "%1" .. config.colors["border"] .. ";")
+    content = string.gsub(content, "(--bg: )#.-;",          "%1" .. config.colors["bg-page"] .. ";")
+    content = string.gsub(content, "(--bg%-content: )#.-;", "%1" .. config.colors["bg-content"] .. ";")
+    content = string.gsub(content, "(--bg%-sidebar: )#.-;", "%1" .. config.colors["bg-sidebar"] .. ";")
+    content = string.gsub(content, "(--fg: )#.-;",          "%1" .. config.colors["fg-page"] .. ";")
+    content = string.gsub(content, "(--fg%-sidebar: )#.-;", "%1" .. config.colors["fg-sidebar"] .. ";")
 
     local out = io.open(config.www .. path .. "/style.css", "w")
     out:write(content)
