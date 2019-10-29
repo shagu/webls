@@ -7,7 +7,7 @@ pages:
   before_script:
     - pacman --noconfirm -Syu
     - pacman --noconfirm -S lua lua-filesystem git
-    - git clone --recursive https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/shagu/webls.git .webls
+    - git clone --recursive https://github.com/shagu/webls.git .webls
 
   script:
     - cp -f .webls-config.lua .webls/config.lua || true
