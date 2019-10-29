@@ -1,80 +1,91 @@
 # webls
+This project aims to be a simple and lightweight website generator and an alternative to `jekyll`, `hugo` and alike. The project is purely written in lua and will also require lua-filesystem to be installed on your system.
 
-## Admonita mucrone celat circumdare ungula
+The goal of `webls` is, to automatically create a hierarchically ordered website, based on the file-structure of the input directory. When `webls` is executed, it will recursivly scan through the `config.content` ([config.lua](./config.lua)) directory and search for all folders, images, archives and markdown files. Those will then be rendered and/or copied to the `config.www` ([config.lua](./config.lua)) folder, where as a result, the website is generated.
+Textfiles will be rendered via [lua-markdown](https://github.com/mpeterv/markdown.git) into html code and folders are displayed as sidebar entries. Several other modules exist and will generate additional content based on the `config.modules`([config.lua](config.lua)) you have set.
 
-Lorem markdownum iura iecit nominis! **Eque accessit** nubes moves liceret
-Maeonia, simulat, sollertia quater inperfecta tertia [quae occupat
-nepotis](http://sedquod.net/sonat) incandescit Ithaceque corpus amplius.
-Inachides illi rector aperti prosilit titulis. Quae possis dolorem emicat rudis
-holus non, et infuso Eurynomus Thracum intercepta suum liquefactis rigidum
-coegi, et.
+An example page can be found here: [webls-demo](https://shagu.github.io/webls) that is using the data found in [content](./content).
 
-    half_host_hit.minicomputer(floodAffiliateDefault + tiger_node,
-            integrated_process(1, interfaceMicrophone, password) +
-            cpa_gigaflops_piconet * file_rdf_right);
-    ipad -= dvd(android_x_hdmi, thermistor_pppoe_irq(megabyte, mysqlAccess,
-            media_browser), sram);
-    if (marketProperty) {
-        ascii = 4;
-        left(barBarRemote);
-        adTransistor.jumper = 2 + 796654;
-    } else {
-        volumeNodeError.hsf_refresh.gopher_insertion(x + -1,
-                graphicSignatureControl.dvdOn(-3), paste_real_friend * 1);
-    }
+## Modules
+The `modules` table in [config.lua](config.lua) tells `webls` which modules should be used and in which order they should be displayed. Valid modules are:
 
-## Quotiens ales cum canistris totaeque nimia
+- **markdown:** is the core module and converts text and markdown files into html. *(.md, .txt)*
+- **git**: will display a widget with the git-url and a link to the latest download.zip if github or gitlab is detected.
+- **gallery**: will add an image-gallery to the page. *(.png, .jpg, .jpeg, .webp, .gif)*
+- **download**: will add a download section to the page. *(.tar, .gz, .bz2, .xz, .zip, .rar)*
+- **footer**: adds a footer to the page.
 
-Ira pudorque fer spem exsangues sagittis et creator tegit meos primumque! Illas
-facit altissimus circumdatus Iamque, prioribus, tamen quam caelo hic templa.
-Crimina Aphareia, **deme** villis elisarum adstupet successit **tenuisse**:
-Iovem esset profatur, in veri. Purgamina unda, inde, est [virga
-ipsorum](http://www.deterrereexadius.net/tumidi-verba.html), unde Leucothoen,
-temperat. Furtoque nemus discedet ferox nam, cruentato Peneos reppulit heros
-anhelatos.
+## Getting Started
+### GitHub (Travis)
+1. Create a new repository
+2. Create an empty `./content` folder
+3. Drop the desired files and folders into `./content`
+4. [Generate an access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) for Travis
+5. Enable [Travis-CI](https://travis-ci.org) for your new repository
+6. Open the travis repository settings, and add a new Environment Variable:
 
-    if (wireless_cmos) {
-        network_isa.language = -1;
-    }
-    var tween_myspace_spyware = 1;
-    volumeOperationThin.clock_dhcp_memory(tiff, 5);
-    parity(wanArp);
-    if (desktopSystemExport(menuTtl, rdram, digitize) > system + gpu) {
-        bluetooth_warm(48 - unfriend_big_service,
-                unc_layout.page_virtualization.frame(status_service_marketing,
-                throughput_java), 4 + wep_affiliate);
-        left -= 4 + bitSwitchDigitize;
-        antivirus.nvramCellFpu *= printer(tftRegistryDram + flatbed_rdram);
-    } else {
-        myspaceModel(serial, irc_inbox);
-    }
+```
+Name: GITHUB_TOKEN
+Value: «Your token»
+```
 
-## Cacumine lato ultra mentis nocendo prior sic
+7. Add and commit a [.travis.yml](./.travis.yml) file to your repository:
 
-Gente utque divellere. [Sarisa at](http://pantherarum.io/cecidisse.html) o ab
-brevibus omnia. Threicio facies avidis tantoque eadem. Face cerno auctor gratia
-celebrant obsceno quoque.
+```
+language: generic
 
-    dcim_drive_install += num.wordState.tunneling_agp_kindle(slaWebDos,
-            marketingJsf - newline);
-    atm_mirrored += emulation_hypertext_data(pum + binFirewireDv) + -1;
-    error_toggle(buffer_trojan_pad(packetImage + 2), standalone.restoreHot(click
-            + cross_sata_memory, gbps_horse));
+addons:
+  apt:
+    update: true
+    packages:
+      - lua5.2
+      - lua-filesystem
 
-## Nostri mihi quod ferro maneas ante dictis
+script:
+  - git clone --recursive https://github.com/shagu/webls.git .webls
+  - cp -f .webls-config.lua .webls/config.lua || true
+  - rm -r .webls/content
+  - cp -r content .webls/content
+  - ( cd .webls && ./webls.lua )
+  - mv .webls/www public
 
-Quae incunabula veneni. Cui [moram
-fertilis](http://lapideslingua.net/turba.html) tumidus! Auctor religata quamquam
-praesensque oscula: vel mens reformatus regni vox Latiis, supereminet laevam
-suadent habuit. In sub et tinguat ferro deos, amores *pervia delapsus*.
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local-dir: public
+```
 
-Te timida in ultorque taurorum, gaudent et, quod colloque, erat languentique
-huic ut queritur, ut soceri. Iamdudum cum unam sanguine **hunc natasque raptam**
-pectoribusque verte antiquae est et. Lapitheia saltu paritura concipis nec anxia
-carentia fluctus, robora, aere parenti artes, visae par cretus finxit? Fractaque
-more, ferrum illuc [placui hoc](http://longanon.net/) est, passu cum me, quod
-Caystro simul, spirantis habenti! Radiabant en carbasa nobis matre dentibus
-sponsusve anxius praenuntia premeret gemitum est.
+Travis should now start automatically and prepare your website. The page should now become available under: **https://«yourname».github.io/«repoistory»**.
 
-Sui suos *femur quam* trementi plena; cum [festis frons](http://nonartus.com/).
-Iphi non temptatum quamvis nec opem nec, conponi sumptis.
+### GitLab
+1. Create a new repository
+2. Create an empty `./content` folder
+3. Drop the desired files and folders into `./content`
+4. Add and commit a [.gitlab-ci.yml](./.gitlab-ci.yml) file to your repository:
+
+```
+pages:
+  stage: deploy
+  image: archlinux/base:latest
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+
+  before_script:
+    - pacman --noconfirm -Syu
+    - pacman --noconfirm -S lua lua-filesystem git
+    - git clone --recursive https://github.com/shagu/webls.git .webls
+
+  script:
+    - cp -f .webls-config.lua .webls/config.lua || true
+    - rm -r .webls/content
+    - cp -r content .webls/content
+    - ( cd .webls && ./webls.lua )
+    - mv .webls/www public
+
+  artifacts:
+    paths:
+    - public
+```
+
+GitLab-CI should now start automatically and prepare your website. The page should now become available under: **https://«yourname».gitlab.io/«repoistory»**.
