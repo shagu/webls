@@ -21,7 +21,6 @@ body {
 
 .topbar {
   font-size: 32pt;
-  border-bottom: 1px var(--border) solid;
   border-right: none !important;
   background: var(--bg-sidebar);
   padding: 20px;
