@@ -24,37 +24,33 @@ The `modules` table in [config.lua](config.lua) tells `webls` which modules shou
 5. Enable [Travis-CI](https://travis-ci.org) for your new repository
 6. Open the travis repository settings, and add a new Environment Variable:
 
-```
-Name: GITHUB_TOKEN
-Value: «Your token»
-```
+    Name: GITHUB_TOKEN
+    Value: «Your token»
 
 7. Add and commit a [.travis.yml](./.travis.yml) file to your repository:
 
-```
-language: generic
+    language: generic
 
-addons:
-  apt:
-    update: true
-    packages:
-      - lua5.2
-      - lua-filesystem
+    addons:
+      apt:
+        update: true
+        packages:
+          - lua5.2
+          - lua-filesystem
 
-script:
-  - git clone --recursive https://github.com/shagu/webls.git .webls
-  - cp -f .webls-config.lua .webls/config.lua || true
-  - rm -r .webls/content
-  - cp -r content .webls/content
-  - ( cd .webls && ./webls.lua )
-  - mv .webls/www public
+    script:
+      - git clone --recursive https://github.com/shagu/webls.git .webls
+      - cp -f .webls-config.lua .webls/config.lua || true
+      - rm -r .webls/content
+      - cp -r content .webls/content
+      - ( cd .webls && ./webls.lua )
+      - mv .webls/www public
 
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local-dir: public
-```
+    deploy:
+      provider: pages
+      skip_cleanup: true
+      github_token: $GITHUB_TOKEN
+      local-dir: public
 
 Travis should now start automatically and prepare your website. The page should now become available under: **https://«yourname».github.io/«repoistory»**.
 
@@ -64,28 +60,26 @@ Travis should now start automatically and prepare your website. The page should 
 3. Drop the desired files and folders into `./content`
 4. Add and commit a [.gitlab-ci.yml](./.gitlab-ci.yml) file to your repository:
 
-```
-pages:
-  stage: deploy
-  image: archlinux/base:latest
-  variables:
-    GIT_SUBMODULE_STRATEGY: recursive
+    pages:
+      stage: deploy
+      image: archlinux/base:latest
+      variables:
+        GIT_SUBMODULE_STRATEGY: recursive
 
-  before_script:
-    - pacman --noconfirm -Syu
-    - pacman --noconfirm -S lua lua-filesystem git
-    - git clone --recursive https://github.com/shagu/webls.git .webls
+      before_script:
+        - pacman --noconfirm -Syu
+        - pacman --noconfirm -S lua lua-filesystem git
+        - git clone --recursive https://github.com/shagu/webls.git .webls
 
-  script:
-    - cp -f .webls-config.lua .webls/config.lua || true
-    - rm -r .webls/content
-    - cp -r content .webls/content
-    - ( cd .webls && ./webls.lua )
-    - mv .webls/www public
+      script:
+        - cp -f .webls-config.lua .webls/config.lua || true
+        - rm -r .webls/content
+        - cp -r content .webls/content
+        - ( cd .webls && ./webls.lua )
+        - mv .webls/www public
 
-  artifacts:
-    paths:
-    - public
-```
+      artifacts:
+        paths:
+        - public
 
 GitLab-CI should now start automatically and prepare your website. The page should now become available under: **https://«yourname».gitlab.io/«repoistory»**.
