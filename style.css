@@ -114,6 +114,10 @@ body {
   padding: 10px;
 }
 
+.text img {
+  max-width: 100%;
+}
+
 .gallery {
   background: var(--bg-content);
   border: 1px var(--border) solid;
