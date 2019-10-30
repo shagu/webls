@@ -22,12 +22,16 @@ The `modules` table in [config.lua](config.lua) tells `webls` which modules shou
 3. Drop the desired files and folders into `./content`
 4. [Generate an access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) for Travis
 5. Enable [Travis-CI](https://travis-ci.org) for your new repository
-6. Open the travis repository settings, and add a new Environment Variable:
+6. Open the travis repository settings, and add a new variable.
+
+*Environment Variable:*
 
     Name: GITHUB_TOKEN
     Value: «Your token»
 
 7. Add and commit a [.travis.yml](./.travis.yml) file to your repository:
+
+*.travis.yml:*
 
     language: generic
 
@@ -59,6 +63,8 @@ Travis should now start automatically and prepare your website. The page should 
 2. Create an empty `./content` folder
 3. Drop the desired files and folders into `./content`
 4. Add and commit a [.gitlab-ci.yml](./.gitlab-ci.yml) file to your repository:
+
+*.gitlab-ci.yml:*
 
     pages:
       stage: deploy
