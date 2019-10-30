@@ -181,17 +181,17 @@ body {
 
 .text code {
   display: inline-block;
-  padding: 3px 5px;
-  background: var(--bg);
-  border: 1px var(--border) solid;
   color: var(--fg);
-  font-size: 10pt;
   overflow: auto;
+  vertical-align: bottom;
 }
 
 .text pre code {
+  background: var(--bg);
+  border: 1px var(--border) solid;
   display: block;
   padding: 10px;
+  font-size: 10pt;
 }
 
 .download {
