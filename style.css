@@ -182,6 +182,7 @@ body {
   border: 1px var(--border) solid;
   color: var(--fg);
   font-size: 10pt;
+  overflow: auto;
 }
 
 .text pre code {
