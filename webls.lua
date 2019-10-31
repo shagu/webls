@@ -68,9 +68,22 @@ local parser = {
     extensions = { ".md", ".txt" },
     prepare = function(self, path, name, fin, fout)
       local file = io.open(fin, "rb")
+      local content = file:read("*all")
+
+      -- copy linked files into output dir
+      string.gsub(content, '%[(.-)%]%((.-)%)', function(title, link)
+        local fin = config.scanpath.."/"..path.."/"..link
+        local fout = config.www.."/"..path.."/"..link
+        local attr = lfs.attributes(fin)
+
+        if attr and attr.mode == "file" then
+          lfs.link(fin, fout)
+        end
+      end)
+
       self.cache = self.cache or {}
       self.cache[path] = self.cache[path] or {}
-      self.cache[path][name]= file:read("*all")
+      self.cache[path][name] = content
       file:close()
     end,
 
