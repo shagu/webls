@@ -1,10 +1,10 @@
 # webls
 This project aims to be a simple and lightweight website generator and an alternative to `jekyll`, `hugo` and alike. The project is purely written in lua and will also require lua-filesystem to be installed on your system.
 
-The goal of `webls` is, to automatically create a hierarchically ordered website, based on the file-structure of the input directory. When `webls` is executed, it will recursivly scan through the `config.content` ([config.lua](./config.lua)) directory and search for all folders, images, archives and markdown files. Those will then be rendered and/or copied to the `config.www` ([config.lua](./config.lua)) folder, where as a result, the website is generated.
+The goal of `webls` is, to automatically create a hierarchically ordered website, based on the file-structure of the input directory. When `webls` is executed, it will recursivly scan through the `config.content` ([config.lua](config.lua)) directory and search for all folders, images, archives and markdown files. Those will then be rendered and/or copied to the `config.www` ([config.lua](config.lua)) folder, where as a result, the website is generated.
 Textfiles will be rendered via [lua-markdown](https://github.com/mpeterv/markdown.git) into html code and folders are displayed as sidebar entries. Several other modules exist and will generate additional content based on the `config.modules`([config.lua](config.lua)) you have set.
 
-An example page can be found here: [webls-demo](https://shagu.github.io/webls) that is using the data found in [content](./content).
+An example page can be found here: [webls-demo](https://shagu.github.io/webls) that is using the data found in [content](https://github.com/shagu/webls/tree/master/content).
 
 
 ## Getting Started
@@ -21,7 +21,7 @@ An example page can be found here: [webls-demo](https://shagu.github.io/webls) t
         Name: GITHUB_TOKEN
         Value: «Your token»
 
- 7. Add and commit a [.travis.yml](./.travis.yml) file to your repository:
+ 7. Add and commit a [.travis.yml](.travis.yml) file to your repository:
 
         language: generic
 
@@ -53,7 +53,7 @@ Travis should now start automatically and prepare your website. The page should 
  1. Create a new repository
  2. Create an empty `./content` folder
  3. Drop the desired files and folders into `./content`
- 4. Add and commit a [.gitlab-ci.yml](./.gitlab-ci.yml) file to your repository:
+ 4. Add and commit a [.gitlab-ci.yml](.gitlab-ci.yml) file to your repository:
 
         pages:
           stage: deploy
@@ -80,8 +80,8 @@ Travis should now start automatically and prepare your website. The page should 
 GitLab-CI should now start automatically and prepare your website. The page should now become available under: **https://«yourname».gitlab.io/«repoistory»**.
 
 ### Customization
-To customize a webls website, add and commit a [.webls-config.lua](./config.lua) file into the root directory of your website repository. The above mentioned ci-configs make sure, the config will be used.
-The [Configuration File](./config.lua) includes the following options:
+To customize a webls website, add and commit a [.webls-config.lua](config.lua) file into the root directory of your website repository. The above mentioned ci-configs make sure, the config will be used.
+The [Configuration File](config.lua) includes the following options:
 
  - **title**: The title of the website which is shown on the browser titlebar and on the website itself as header
  - **description:**: A brief description of your website, a slogan or whatever. It is displayed next to the title
