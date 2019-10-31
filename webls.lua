@@ -251,9 +251,10 @@ for path in pairs(scan()) do
     content = string.gsub(content, "(--fg: )#.-;",          "%1" .. config.colors["fg-page"] .. ";")
     content = string.gsub(content, "(--fg%-sidebar: )#.-;", "%1" .. config.colors["fg-sidebar"] .. ";")
 
-    local out = io.open(config.www .. path .. "/style.css", "w")
-    out:write(content)
-    out:close()
+    local css = io.open(config.www .. path .. "/style.css", "w")
+    css:write(content)
+    css:close()
+
   end
 
   -- load template layout
