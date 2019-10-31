@@ -6,14 +6,6 @@ Textfiles will be rendered via [lua-markdown](https://github.com/mpeterv/markdow
 
 An example page can be found here: [webls-demo](https://shagu.github.io/webls) that is using the data found in [content](./content).
 
-## Modules
-The `modules` table in [config.lua](config.lua) tells `webls` which modules should be used and in which order they should be displayed. Valid modules are:
-
-- **markdown:** is the core module and converts text and markdown files into html. *(.md, .txt)*
-- **git**: will display a widget with the git-url and a link to the latest download.zip if github or gitlab is detected.
-- **gallery**: will add an image-gallery to the page. *(.png, .jpg, .jpeg, .webp, .gif)*
-- **download**: will add a download section to the page. *(.tar, .gz, .bz2, .xz, .zip, .rar)*
-- **footer**: adds a footer to the page.
 
 ## Getting Started
 
@@ -86,3 +78,30 @@ Travis should now start automatically and prepare your website. The page should 
             - public
 
 GitLab-CI should now start automatically and prepare your website. The page should now become available under: **https://«yourname».gitlab.io/«repoistory»**.
+
+### Customization
+To customize a webls website, add and commit a [.webls-config.lua](./config.lua) file into the root directory of your website repository. The above mentioned ci-configs make sure, the config will be used.
+The [Configuration File](./config.lua) includes the following options:
+
+ - **title**: The title of the website which is shown on the browser titlebar and on the website itself as header
+ - **description:**: A brief description of your website, a slogan or whatever. It is displayed next to the title
+ - **website:**: The full name of the domain that your website runs on. Is not yet in use
+ - **cname**: The domain of your website. Will create a CNAME file in the output directory. Required for custom domains on github-pages
+ - **pagesuffix**: When set to true, all generated sidebar links will point to an index.html of the directory. This is useful for local development.
+ - **scanpath**: The foldername of the input directory, where the content is present.
+ - **www**: The foldername of the output directory, where the content should be rendered to.
+ - **modules:**: All available modules that are used to render content in the specified order.
+   - **markdown:** is the core module and converts text and markdown files into html. *(.md, .txt)*
+   - **git**: will display a widget with the git-url and a link to the latest download.zip if github or gitlab is detected.
+   - **gallery**: will add an image-gallery to the page. *(.png, .jpg, .jpeg, .webp, .gif)*
+   - **download**: will add a download section to the page. *(.tar, .gz, .bz2, .xz, .zip, .rar)*
+   - **footer**: adds a footer to the page.
+
+ - **colors**: The colors that are used for the website
+   - **accent**: The unique color of your website
+   - **border**: The default border color around all objects, and the top-navigation background
+   - **bg-page**: The background of the body of the page
+   - **bg-content**: The background color of the modules generated fields
+   - **bg-sidebar**: The background color of the sidebar
+   - **fg-page**: The font color of the body of the page
+   - **fg-sidebar**: The font color of the sidebar
