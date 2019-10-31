@@ -169,7 +169,7 @@ local parser = {
 
   ["footer"] = {
     build = function()
-      return string.format('<div class="footer">%s - powered by <a href="https://gitlab.com/shagu/webls">webls</a></div>', os.date("%B %Y"))
+      return string.format('<div class="footer">%s - powered by <a href="https://github.com/shagu/webls">webls</a></div>', os.date("%B %Y"))
     end
   },
 }
