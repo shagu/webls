@@ -230,6 +230,14 @@ for path in pairs(scan()) do
 
   -- write stylesheet into the root directory
   if #elements == 0 then
+
+    if config.cname then
+      -- write CNAME file in order to allow custom domains
+      local cname = io.open(config.www .. path .. "/CNAME", "w")
+      cname:write(config.cname)
+      cname:close()
+    end
+
     local file = io.open("style.css", "rb")
     local content = file:read("*all")
     file:close()

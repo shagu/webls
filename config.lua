@@ -3,6 +3,7 @@ return {
   title       = "webls",
   description = "a simple website generator",
   website     = "https://example.org",
+  cname       = nil,
 
   -- add "index.html" to the end of each link
   pagesuffix  = true,
