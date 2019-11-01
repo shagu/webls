@@ -35,7 +35,7 @@ body {
   display: block;
   color: var(--accent);
   text-decoration: none;
-  margin-bottom: -20px;
+  margin-bottom: -30px;
 }
 
 .title:hover {
