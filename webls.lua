@@ -100,6 +100,30 @@ local parser = {
     end
   },
 
+  ["html"] = {
+    extensions = { ".html", ".htm" },
+    prepare = function(self, path, name, fin, fout)
+      local file = io.open(fin, "rb")
+      local content = file:read("*all")
+
+      self.cache = self.cache or {}
+      self.cache[path] = self.cache[path] or {}
+      self.cache[path][name] = content
+      file:close()
+    end,
+
+    build = function(self, path)
+      if not self.cache or not self.cache[path] or empty(self.cache[path]) then return "" end
+
+      local txt = ""
+      local tpl = '<div id="%s" class="text">%s</div>'
+      for name, text in spairs(self.cache[path]) do
+        txt = txt .. string.format(tpl, name, text)
+      end
+      return txt
+    end
+  },
+
   ["gallery"] = {
     extensions = { ".png", ".jpg", ".jpeg", ".webp", ".gif" },
     prepare = function(self, path, name, fin, fout)

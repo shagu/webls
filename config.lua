@@ -15,7 +15,7 @@ return {
   www         = "www",
 
   -- modules that should be used for parsing
-  modules     = { "markdown", "git", "gallery", "download", "footer" },
+  modules     = { "html", "markdown", "git", "gallery", "download", "footer" },
 
   -- define default colors
   colors      = {
