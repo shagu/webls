@@ -91,6 +91,7 @@ The [Configuration File](config.lua) includes the following options:
  - **scanpath**: The foldername of the input directory, where the content is present.
  - **www**: The foldername of the output directory, where the content should be rendered to.
  - **modules:**: All available modules that are used to render content in the specified order.
+   - **html:** all html-files found in the input directory will be added to the content view. *(.html, .htm)*
    - **markdown:** is the core module and converts text and markdown files into html. *(.md, .txt)*
    - **git**: will display a widget with the git-url and a link to the latest download.zip if github or gitlab is detected.
    - **gallery**: will add an image-gallery to the page. *(.png, .jpg, .jpeg, .webp, .gif)*
