@@ -320,3 +320,5 @@ body {
 .git #download:hover {
   border: 1px var(--accent) solid;
 }
+
+.customcss { }
