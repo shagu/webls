@@ -287,7 +287,7 @@ for path in pairs(scan()) do
     content = string.gsub(content, "(--bg%-sidebar: )#.-;", "%1" .. config.colors["bg-sidebar"] .. ";")
     content = string.gsub(content, "(--fg: )#.-;",          "%1" .. config.colors["fg-page"] .. ";")
     content = string.gsub(content, "(--fg%-sidebar: )#.-;", "%1" .. config.colors["fg-sidebar"] .. ";")
-    content = string.gsub(content, ".customcss { }", escape(config.colors["customcss"]))
+    content = string.gsub(content, ".customcss { }", escape(config.colors["customcss"] or ""))
 
     local css = io.open(config.www .. path .. "/style.css", "w")
     css:write(content)
