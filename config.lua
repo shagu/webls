@@ -4,6 +4,7 @@ return {
   description = "a simple website generator",
   website     = "https://example.org",
   cname       = nil,
+  head        = nil,
 
   -- add "index.html" to the end of each link
   pagesuffix  = true,
