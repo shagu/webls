@@ -1,11 +1,9 @@
 :root {
   --accent: #3a5;
   --border: #eee;
-
   --bg: #fafafa;
   --bg-content: #fff;
   --bg-sidebar: #fff;
-
   --fg: #000;
   --fg-sidebar: #222;
 }
@@ -143,6 +141,7 @@ body {
     position: relative;
     text-align: center;
   }
+
   .sidebar a.sidelink {
     float: left;
     border-style: hidden;
@@ -153,7 +152,10 @@ body {
     background: var(--border);
   }
 
-  div.page {margin-left: 0; padding-left: 0px;}
+  div.page {
+    margin-left: 0;
+    padding-left: 0px;
+  }
 }
 
 @media screen and (max-width: 400px) {
@@ -213,7 +215,7 @@ body {
   color: #555;
 }
 
-.download a:hover{
+.download a:hover {
   border: 1px var(--fg) solid;
   color: var(--fg-content);
 }
@@ -250,7 +252,7 @@ body {
   color: #aaa;
 }
 
-.gallery a:hover{
+.gallery a:hover {
   color: var(--bg-content);
 }
 
@@ -321,4 +323,4 @@ body {
   border: 1px var(--accent) solid;
 }
 
-.customcss { }
+.customcss {}
