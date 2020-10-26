@@ -4,6 +4,7 @@
 local config = require("config")
 local lfs = require("lfs")
 local markdown = require("markdown/markdown")
+local unpack = unpack or table.unpack
 
 -- simple helper functions
 local function strsplit(delimiter, subject)
