@@ -316,7 +316,7 @@ for path in pairs(scan()) do
   end
 
   -- load navbar
-  local navbar = path == "" and "" or '<div class="navigation">'
+  local navbar = path == "" and '<div class="navigation"><span>welcome!</span> ' or '<div class="navigation"><a href="' .. escape(basepath) .. escape(pagesuffix) .. '">welcome!</a> '
   for i, name in pairs(elements) do
     if i < #elements then
       navbar = navbar .. '» <a href="' .. string.rep("../", #elements - i) .. pagesuffix .. '">' .. name .. '</a> '

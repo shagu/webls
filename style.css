@@ -1,246 +1,124 @@
 :root {
   --accent: #3a5;
   --border: #eee;
-  --bg: #fafafa;
+  --bg-page: #fafafa;
   --bg-content: #fff;
   --bg-sidebar: #fff;
-  --fg: #000;
+  --fg-page: #000;
   --fg-sidebar: #222;
 }
 
 body {
   font-family: "Roboto", "Droid Sans", "Ubuntu Sans", Sans;
   font-size: 12pt;
-  background: var(--bg);
-  color: var(--fg);
+  background: var(--bg-page);
+  color: var(--fg-page);
   margin: 0px;
   padding: 0px;
 }
 
-.topbar {
-  font-size: 32pt;
-  border-right: none !important;
-  background: var(--bg-sidebar);
-  padding: 20px;
-  margin-bottom: 10px;
-}
-
-.topbar:hover {
-  border-right: none !important;
-}
-
-.title {
+code {
   display: block;
-  color: var(--accent);
-  text-decoration: none;
-  margin-bottom: -30px;
-}
-
-.title:hover {
-  text-decoration: underline;
-}
-
-.description {
-  font-size: 11pt;
+  overflow: auto;
+  padding: 10px;
+  background-color: var(--bg-sidebar);
   color: var(--fg-sidebar);
+  border: 1px var(--border) solid;
+  font-size: 10pt;
+}
+
+.viewport {
+  margin: auto;
+  max-width: 1200px;
+  width: 90%;
 }
 
 .sidebar {
-  width: 25%;
+  padding-top: 10px;
+  border-bottom: 2px var(--border) solid;
   background-color: var(--bg-sidebar);
-  border-right: 1px var(--border) solid;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  overflow: auto;
-  text-align: right;
+  box-shadow: 0px 0px 10px var(--border);
 }
 
-.sidebar a.sidelink {
-  display: block;
-  color: var(--fg-sidebar);
-  padding: 5px 10px;
+.title {
+  font-weight: bold;
+  font-size: 26pt;
   text-decoration: none;
-  padding-right: 20px;
-  border-right: 2px var(--bg-sidebar) solid;
-}
-
-.sidebar a.sidelink:hover {
   color: var(--accent);
-  border-right: 2px var(--accent) solid;
 }
 
-.page {
-  margin-left: 25%;
+.description {
+  padding: 5px;
+  font-weight: 100;
 }
 
 .navigation {
-  padding: 10px 20px;
-  border-bottom: 1px var(--border) solid;
-  background: var(--border);
-  color: var(--accent);
-  font-size: 11pt;
-}
-
-.navigation a {
-  text-decoration: none;
-  color: var(--fg);
-}
-
-.navigation a:hover {
-  text-decoration: underline;
+  color: var(--fg-page);
 }
 
 .navigation span {
-  color: var(--fg);
   font-weight: bold;
-}
-
-.back {
-  font-style: italic;
-}
-
-.content {
-  max-width: 1000px;
-}
-
-.text {
-  background: var(--bg-content);
-  border: 1px var(--border) solid;
-  margin: 5px;
-  padding: 10px;
-}
-
-.text img {
-  max-width: 100%;
-}
-
-.gallery {
-  background: var(--bg-content);
-  border: 1px var(--border) solid;
-  margin: 5px;
-  padding: 10px;
-}
-
-.footer {
-  margin: 10px;
-  color: #ccc;
-  font-size: 10pt;
-  text-align: center;
-}
-
-.footer a {
-  color: #ccc;
-}
-
-@media screen and (max-width: 700px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    text-align: center;
-  }
-
-  .sidebar a.sidelink {
-    float: left;
-    border-style: hidden;
-  }
-
-  .sidebar a.sidelink:hover {
-    border-style: hidden;
-    background: var(--border);
-  }
-
-  div.page {
-    margin-left: 0;
-    padding-left: 0px;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .sidebar a.sidelink {
-    float: none;
-    text-align: center;
-    border-style: hidden;
-  }
-
-  .sidebar a.sidelink:hover {
-    border-style: hidden;
-    background: var(--border);
-  }
-}
-
-.text a {
-  font-weight: bold;
+  color: var(--accent);
   text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.navigation a {
+  color: var(--fg-sidebar);
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.navigation a:hover {
+  margin-bottom: -2px;
+  border-bottom: 2px var(--accent) solid;
+}
+
+.mainview {
+  display: flex;
+  flex-direction: row;
+  border-left: 1px var(--border) solid;
+}
+
+.directories {
+  flex: 0 0 auto;
+   order: 2;
+  min-width: 200px;
+  margin: 20px;
+  border-left: 1px var(--border) solid;
+}
+
+.sidelink {
+  color: var(--fg-sidebar);
+  text-decoration: none;
+  display: block;
+  margin: 0px 0px 10px 20px;
+  padding: 5px 20px;
+  background: var(--bg-sidebar);
+  box-shadow: 0px 0px 10px var(--border);
+  border: 1px var(--border) solid;
+}
+
+.sidelink:hover {
   color: var(--accent);
 }
 
-.text a:hover {
-  text-decoration: underline;
+.back {
+  font-weight: bold;
 }
 
-.text code {
-  display: inline-block;
-  color: var(--fg);
-  overflow: auto;
-  vertical-align: bottom;
+.page {
+  flex: 1 1 auto;
+  margin: 20px;
 }
 
-.text pre code {
-  background: var(--bg);
-  border: 1px var(--border) solid;
-  display: block;
-  padding: 10px;
-  font-size: 10pt;
-}
-
-.download {
-  background: var(--bg-content);
-  border: 1px var(--border) solid;
-  margin: 5px;
-  padding: 10px;
-}
-
-.download a {
-  text-decoration: none;
-  font-size: 12pt;
-  display: inline-block;
-  line-height: 20pt;
-  border: 1px var(--border) solid;
-  background: var(--bg-content);
-  padding: 10px 10px 5px 10px;
-  margin: 5px;
-  color: #555;
-}
-
-.download a:hover {
-  border: 1px var(--fg) solid;
-  color: var(--fg-content);
-}
-
-.download a span {
-  float: right;
-}
-
-.download a svg {
-  width: 24px;
-  height: 24px;
-  padding: 0px 5px;
-  float: left;
-  fill: #aaa;
-}
-
-.download a:hover svg {
-  fill: var(--fg);
-}
-
-.gallery {
-  background: var(--bg-content);
-  border: 1px var(--border) solid;
-  margin: 5px;
-  padding: 10px;
+.content {
+ max-width: 768px;
+ background-color: var(--bg-content);
 }
 
 .gallery a {
@@ -275,52 +153,45 @@ body {
   padding: 5px 5px;
 }
 
-.git {
-  background: var(--bg-content);
-  border: 1px var(--border) solid;
-  margin: 5px;
-  padding: 10px;
-}
-
-.git #container {
-  display: table;
-  width: 100%;
-  border-spacing: 10px;
-}
-
-.git #container span {
-  vertical-align: middle;
-  text-align: center;
-}
-
-.git #icon {
-  display: table-cell;
-  width: 24px;
-}
-
-.git #url {
-  display: table-cell;
-  border: 1px var(--border) solid;
-  background: var(--bg-content);
-  color: var(--fg);
-  font-family: monospace;
-}
-
-.git #download {
-  display: table-cell;
-  background: var(--bg);
-  border: 1px var(--border) solid;
+.footer {
+  border-top: 1px var(--border) solid;
+  text-align: left;
+  margin: 20px 0px;
+  padding: 20px 0px;
+  color: #aaa;
   font-size: 11pt;
+  font-weight: 300;
 }
 
-.git #download a {
-  display: block;
-  color: var(--accent);
+.footer a {
+  color: #aaa;
+  font-weight: 600;
   text-decoration: none;
 }
 
-.git #download:hover {
-  border: 1px var(--accent) solid;
+.footer a:hover {
+  color: var(--accent);
 }
 
-.customcss {}
+
+@media screen and (max-width: 1100px) {
+  .mainview {
+    display: block;
+    border-left: 0px #000000 solid;
+  }
+
+  .directories {
+    border-left: 0px #000000 solid;
+  }
+
+  .sidelink {
+    color: var(--fg-sidebar);
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px 5px 5px;
+    padding: 5px 20px;
+    background: var(--bg-sidebar);
+    box-shadow: 0px 0px 10px var(--border);
+    border: 1px var(--border) solid;
+  }
+}

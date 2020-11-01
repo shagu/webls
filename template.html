@@ -12,15 +12,22 @@
 
 <body>
   <div class="sidebar">
-    <div class="topbar">
-      <a class="title" href="%%basepath%%%%pagesuffix%%">%%title%%</a>
-      <span class="description">%%description%%</span>
+    <div class="viewport">
+      <div class="topbar">
+        <a class="title" href="%%basepath%%%%pagesuffix%%">%%title%%</a>
+        <span class="description">%%description%%</span>
+      </div>
+      %%navbar%%
     </div>
-    %%sidebar%%
   </div>
 
-  <div class="page">%%navbar%%
-    <div class="content">%%page%%</div>
+  <div class="viewport mainview">
+    <div class="directories">
+      %%sidebar%%
+    </div>
+    <div class="page">
+      <div class="content">%%page%%</div>
+    </div>
   </div>
 </body>
 
