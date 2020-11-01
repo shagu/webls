@@ -27,6 +27,15 @@ code {
   font-size: 10pt;
 }
 
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .viewport {
   margin: auto;
   max-width: 1200px;
@@ -105,6 +114,7 @@ code {
 
 .sidelink:hover {
   color: var(--accent);
+  text-decoration: none;
 }
 
 .back {
