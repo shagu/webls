@@ -141,7 +141,7 @@ a:hover {
 }
 
 .gallery a:hover {
-  color: var(--bg-content);
+  color: var(--accent);
 }
 
 .gallery img {
