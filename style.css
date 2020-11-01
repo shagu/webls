@@ -153,6 +153,45 @@ code {
   padding: 5px 5px;
 }
 
+.download {
+  margin: 5px;
+  padding: 10px;
+}
+
+.download a {
+  text-decoration: none;
+  font-size: 12pt;
+  display: inline-block;
+  line-height: 20pt;
+  border: 1px var(--border) solid;
+  background: var(--bg-content);
+  padding: 10px 10px 5px 10px;
+  margin: 5px;
+  color: #555;
+}
+
+.download a:hover {
+  background: var(--bg-sidebar);
+  border: 1px var(--accent) solid;
+  color: var(--fg-content);
+}
+
+.download a span {
+  float: right;
+}
+
+.download a svg {
+  width: 24px;
+  height: 24px;
+  padding: 0px 5px;
+  float: left;
+  fill: #aaa;
+}
+
+.download a:hover svg {
+  fill: var(--accent);
+}
+
 .footer {
   border-top: 1px var(--border) solid;
   text-align: left;
