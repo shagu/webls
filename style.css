@@ -17,14 +17,18 @@ body {
   padding: 0px;
 }
 
-code {
+pre {
   display: block;
   overflow: auto;
   padding: 10px;
-  background-color: var(--bg-sidebar);
-  color: var(--fg-sidebar);
   border: 1px var(--border) solid;
+  background-color: var(--bg-page);
+}
+
+code {
   font-size: 10pt;
+  background-color: var(--bg-page);
+  color: var(--fg-sidebar);
 }
 
 a {
