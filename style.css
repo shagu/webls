@@ -87,22 +87,20 @@ a:hover {
 }
 
 .navigation a:hover {
-  margin-bottom: -2px;
-  border-bottom: 2px var(--accent) solid;
+  margin-bottom: -1px;
+  border-bottom: 1px var(--accent) solid;
 }
 
 .mainview {
   display: flex;
   flex-direction: row;
-  border-left: 1px var(--border) solid;
 }
 
 .directories {
   flex: 0 0 auto;
-   order: 2;
+  order: 2;
   min-width: 200px;
-  margin: 20px;
-  border-left: 1px var(--border) solid;
+  margin: 10px 0px;
 }
 
 .sidelink {
@@ -112,7 +110,6 @@ a:hover {
   margin: 0px 0px 10px 20px;
   padding: 5px 20px;
   background: var(--bg-sidebar);
-  box-shadow: 0px 0px 10px var(--border);
   border: 1px var(--border) solid;
 }
 
@@ -127,15 +124,31 @@ a:hover {
 
 .page {
   flex: 1 1 auto;
-  margin: 20px;
+}
+
+.content img {
+  max-width: 100% !Important;
 }
 
 .content {
- max-width: 768px;
- background-color: var(--bg-content);
+  margin-top: 10px;
+  background-color: var(--bg-content);
+  border-top: 1px var(--border) solid;
+  border-left: 1px var(--border) solid;
+  border-right: 1px var(--border) solid;
 }
 
-.gallery a {
+.content .text {
+  padding: 20px;
+  max-width: 820px;
+}
+
+.content .gallery {
+  border-top: 1px var(--border) solid;
+  padding: 20px;
+}
+
+.content .gallery a {
   text-decoration: none;
   display: inline-block;
   background: #222;
@@ -144,11 +157,11 @@ a:hover {
   color: #aaa;
 }
 
-.gallery a:hover {
+.content .gallery a:hover {
   color: var(--accent);
 }
 
-.gallery img {
+.content .gallery img {
   transition: opacity .25s ease-in-out;
   opacity: .8;
   margin: auto;
@@ -156,23 +169,46 @@ a:hover {
   max-width: 480px;
 }
 
-.gallery a:hover img {
+.content .gallery a:hover img {
   opacity: 1;
 }
 
-.gallery span {
+.content .gallery span {
   font-size: 10pt;
   display: block;
   text-align: center;
   padding: 5px 5px;
 }
 
-.download {
+.content .download {
+  border-top: 1px var(--border) solid;
+}
+
+.content .footer {
+  background-color: var(--bg-page);
+  border-top: 1px var(--border) solid;
+  text-align: center;
+  padding: 10px;
+  color: #aaa;
+  font-size: 10pt;
+  font-weight: 300;
+}
+
+.content .footer a {
+  color: #555;
+  text-decoration: none;
+}
+
+.content .footer a:hover {
+  color: var(--accent);
+}
+
+.content .download {
   margin: 5px;
   padding: 10px;
 }
 
-.download a {
+.content .download a {
   text-decoration: none;
   font-size: 12pt;
   display: inline-block;
@@ -184,17 +220,17 @@ a:hover {
   color: #555;
 }
 
-.download a:hover {
+.content .download a:hover {
   background: var(--bg-sidebar);
   border: 1px var(--accent) solid;
   color: var(--fg-content);
 }
 
-.download a span {
+.content .download a span {
   float: right;
 }
 
-.download a svg {
+.content .download a svg {
   width: 24px;
   height: 24px;
   padding: 0px 5px;
@@ -202,30 +238,9 @@ a:hover {
   fill: #aaa;
 }
 
-.download a:hover svg {
+.content .download a:hover svg {
   fill: var(--accent);
 }
-
-.footer {
-  border-top: 1px var(--border) solid;
-  text-align: left;
-  margin: 20px 0px;
-  padding: 20px 0px;
-  color: #aaa;
-  font-size: 11pt;
-  font-weight: 300;
-}
-
-.footer a {
-  color: #aaa;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  color: var(--accent);
-}
-
 
 @media screen and (max-width: 1100px) {
   .mainview {
@@ -244,7 +259,6 @@ a:hover {
     margin: 0px 0px 5px 5px;
     padding: 5px 20px;
     background: var(--bg-sidebar);
-    box-shadow: 0px 0px 10px var(--border);
     border: 1px var(--border) solid;
   }
 }
