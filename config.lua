@@ -22,7 +22,7 @@ return {
     ["accent"]      = "#3a5",
     ["border"]      = "#eee",
     ["bg-page"]     = "#fafafa",
-    ["bg-content"]  = "#fafafa",
+    ["bg-content"]  = "#fff",
     ["bg-sidebar"]  = "#fff",
     ["fg-page"]     = "#000",
     ["fg-sidebar"]  = "#222",
