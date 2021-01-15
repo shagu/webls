@@ -66,7 +66,7 @@ local icons = {
 
 local parser = {
   ["markdown"] = {
-    extensions = { ".md", ".txt" },
+    extensions = config.markdown and config.markdown.extensions or { ".md", ".txt" },
     prepare = function(self, path, name, fin, fout)
       local file = io.open(fin, "rb")
       local content = file:read("*all")
@@ -102,7 +102,7 @@ local parser = {
   },
 
   ["html"] = {
-    extensions = { ".html", ".htm" },
+    extensions = config.html and config.html.extensions or { ".html", ".htm" },
     prepare = function(self, path, name, fin, fout)
       local file = io.open(fin, "rb")
       local content = file:read("*all")
@@ -126,7 +126,7 @@ local parser = {
   },
 
   ["gallery"] = {
-    extensions = { ".png", ".jpg", ".jpeg", ".webp", ".gif" },
+    extensions = config.gallery and config.gallery.extensions or { ".png", ".jpg", ".jpeg", ".webp", ".gif" },
     prepare = function(self, path, name, fin, fout)
       self.cache = self.cache or {}
       self.cache[path] = self.cache[path] or {}
@@ -148,7 +148,7 @@ local parser = {
   },
 
   ["download"] = {
-    extensions = { ".tar", ".gz", ".bz2", ".xz", ".zip", ".rar" },
+    extensions = config.download and config.download.extensions or { ".tar", ".gz", ".bz2", ".xz", ".zip", ".rar" },
     prepare = function(self, path, name, fin, fout)
       self.cache = self.cache or {}
       self.cache[path] = self.cache[path] or {}
