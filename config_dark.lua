@@ -17,6 +17,22 @@ return {
   -- modules that should be used for parsing
   modules     = { "html", "markdown", "git", "gallery", "download", "footer" },
 
+  --[[
+  -- module options
+  html = {
+    extensions = { ".xhtml", ".html" }
+  },
+  markdown = {
+    extensions = { ".md" }
+  },
+  gallery = {
+    extensions = { ".png", ".jpg" }
+  },
+  download = {
+    extensions = { ".pdf", ".xz", ".zstd" }
+  },
+  ]]--
+
   -- define default colors
   colors      = {
     ["accent"]      = "#3fc",
