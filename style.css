@@ -1,0 +1,264 @@
+:root {
+  --accent: #3a5;
+  --border: #eee;
+  --bg-page: #fafafa;
+  --bg-content: #fff;
+  --bg-sidebar: #fff;
+  --fg-page: #000;
+  --fg-sidebar: #222;
+}
+
+body {
+  font-family: "Roboto", "Droid Sans", "Ubuntu Sans", Sans;
+  font-size: 12pt;
+  background: var(--bg-page);
+  color: var(--fg-page);
+  margin: 0px;
+  padding: 0px;
+}
+
+pre {
+  display: block;
+  overflow: auto;
+  padding: 10px;
+  border: 1px var(--border) solid;
+  background-color: var(--bg-page);
+}
+
+code {
+  font-size: 10pt;
+  background-color: var(--bg-page);
+  color: var(--fg-sidebar);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.viewport {
+  margin: auto;
+  max-width: 1200px;
+  width: 90%;
+}
+
+.sidebar {
+  padding-top: 10px;
+  border-bottom: 2px var(--border) solid;
+  background-color: var(--bg-sidebar);
+  box-shadow: 0px 0px 10px var(--border);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 26pt;
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.description {
+  padding: 5px;
+  font-weight: 100;
+}
+
+.navigation {
+  color: var(--fg-page);
+}
+
+.navigation span {
+  font-weight: bold;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.navigation a {
+  color: var(--fg-sidebar);
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.navigation a:hover {
+  margin-bottom: -1px;
+  border-bottom: 1px var(--accent) solid;
+}
+
+.mainview {
+  display: flex;
+  flex-direction: row;
+}
+
+.directories {
+  flex: 0 0 auto;
+  order: 2;
+  min-width: 200px;
+  margin: 10px 0px;
+}
+
+.sidelink {
+  color: var(--fg-sidebar);
+  text-decoration: none;
+  display: block;
+  margin: 0px 0px 10px 20px;
+  padding: 5px 20px;
+  background: var(--bg-sidebar);
+  border: 1px var(--border) solid;
+}
+
+.sidelink:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back {
+  font-weight: bold;
+}
+
+.page {
+  flex: 1 1 auto;
+}
+
+.content img {
+  max-width: 100% !Important;
+}
+
+.content {
+  margin-top: 10px;
+  background-color: var(--bg-content);
+  border: 1px var(--border) solid;
+}
+
+.content .text {
+  padding: 20px;
+  max-width: 820px;
+}
+
+.content .gallery {
+  border-top: 1px var(--border) solid;
+  padding: 20px;
+}
+
+.content .gallery a {
+  text-decoration: none;
+  display: inline-block;
+  background: #222;
+  padding: 5px;
+  margin: 5px;
+  color: #aaa;
+}
+
+.content .gallery a:hover {
+  color: var(--accent);
+}
+
+.content .gallery img {
+  transition: opacity .25s ease-in-out;
+  opacity: .8;
+  margin: auto;
+  height: 200px;
+  max-width: 480px;
+}
+
+.content .gallery a:hover img {
+  opacity: 1;
+}
+
+.content .gallery span {
+  font-size: 10pt;
+  display: block;
+  text-align: center;
+  padding: 5px 5px;
+}
+
+.content .download {
+  border-top: 1px var(--border) solid;
+}
+
+.content .footer {
+  background-color: var(--bg-page);
+  border-top: 1px var(--border) solid;
+  text-align: center;
+  padding: 7px;
+  color: #aaa;
+  font-size: 10pt;
+  font-weight: 300;
+}
+
+.content .footer a {
+  color: #555;
+  text-decoration: none;
+}
+
+.content .footer a:hover {
+  color: var(--accent);
+}
+
+.content .download {
+  margin: 5px;
+  padding: 10px;
+}
+
+.content .download a {
+  text-decoration: none;
+  font-size: 12pt;
+  display: inline-block;
+  line-height: 20pt;
+  border: 1px var(--border) solid;
+  background: var(--bg-content);
+  padding: 10px 10px 5px 10px;
+  margin: 5px;
+  color: #555;
+}
+
+.content .download a:hover {
+  background: var(--bg-sidebar);
+  border: 1px var(--accent) solid;
+  color: var(--fg-content);
+}
+
+.content .download a span {
+  float: right;
+}
+
+.content .download a svg {
+  width: 24px;
+  height: 24px;
+  padding: 0px 5px;
+  float: left;
+  fill: #aaa;
+}
+
+.content .download a:hover svg {
+  fill: var(--accent);
+}
+
+@media screen and (max-width: 1100px) {
+  .mainview {
+    display: block;
+    border-left: 0px #000000 solid;
+  }
+
+  .directories {
+    border-left: 0px #000000 solid;
+  }
+
+  .sidelink {
+    color: var(--fg-sidebar);
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 0px 5px 5px;
+    padding: 5px 20px;
+    background: var(--bg-sidebar);
+    border: 1px var(--border) solid;
+  }
+}
+
+
