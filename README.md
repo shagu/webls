@@ -79,6 +79,14 @@ Travis should now start automatically and prepare your website. The page should 
 
 GitLab-CI should now start automatically and prepare your website. The page should now become available under: **https://«yourname».gitlab.io/«repoistory»**.
 
+### Manual Setup
+
+ 1. Install the dependencies: `lua` and `lua-filesystem`
+ 2. Clone the repository: `git clone --recursive https://github.com/shagu/webls.git`
+ 3. Put your files into the `content/` directory
+ 4. Run `./webls.lua`
+ 5. Move the `www/` folder to your web root
+
 ### Customization
 To customize a webls website, add and commit a [.webls-config.lua](config.lua) file into the root directory of your website repository. The above mentioned ci-configs make sure, the config will be used.
 The [Configuration File](config.lua) includes the following options:
